@@ -1,0 +1,10 @@
+services:
+    frontend:
+        container_name: meetpoint-piq-frontend
+        image: meetpoint-piq-frontend:latest
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "4200:4200"
+        restart: unless-stopped
