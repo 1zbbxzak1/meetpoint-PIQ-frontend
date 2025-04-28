@@ -1,0 +1,85 @@
+/* Fonts */
+
+$font-regular: 'PTRootUIWebRegular', sans-serif;
+$font-medium: 'PTRootUIWebMedium', sans-serif;
+$font-bold: 'PTRootUIWebBold', sans-serif;
+
+/* Colors */
+
+// Main
+$main-orange-primary: #FC7630;
+
+// Text
+$text-black: #232323;
+$text-grey-secondary: #7B7B7B;
+$text-white: #FFF;
+
+// BG
+$bg-white: #FFF;
+$bg-light-gray: #F4F4F4;
+
+// Stroke
+$stroke-light-gray: #EBEBEB;
+
+// Button
+$button-accent-primary-bg-default: #FC7630;
+$button-accent-primary-bg-hover: #FF8227;
+$button-accent-minor-bg-default: #FFE9D5;
+$button-accent-minor-bg-hover: #FFCEA9;
+$button-accent-outline-stroke-default: #FC7630;
+$button-accent-outline-bg-hover: #FFE9D5;
+$button-neutral-stroke: #D6D6D6;
+$button-neutral-bg-hover: #F4F4F4;
+$button-disabled-bg-default: #F4F4F4;
+$button-disabled-stroke: #E0E0E0;
+$button-disabled-text-icon: #C2C2C2;
+
+// Input
+$input-stroke-default-active: #D6D6D6;
+$input-stroke-hover-focused: #FC7630;
+$input-stroke-text-error: #FF0D00;
+$input-bg-disabled: #F4F4F4;
+$input-text-icon-disabled: #C2C2C2;
+$input-disabled-stroke: #E0E0E0;
+
+/* Font sizes (Desktop) */
+
+$font-headline-1-size: 48px;
+$font-headline-1-line-height: 56px;
+$font-headline-2-size: 40px;
+$font-headline-2-line-height: 48px;
+$font-headline-3-size: 32px;
+$font-headline-3-line-height: 40px;
+$font-headline-4-size: 28px;
+$font-headline-4-line-height: 32px;
+$font-headline-5-size: 24px;
+$font-headline-5-line-height: 28px;
+
+$font-body-l-bold-size: 18px;
+$font-body-l-bold-line-height: 28px;
+$font-body-m-bold-size: 16px;
+$font-body-m-bold-line-height: 24px;
+$font-body-s-bold-size: 13px;
+$font-body-s-bold-line-height: 20px;
+
+$font-body-l-regular-size: 18px;
+$font-body-l-regular-line-height: 28px;
+$font-body-m-regular-size: 16px;
+$font-body-m-regular-line-height: 24px;
+$font-body-s-regular-size: 13px;
+$font-body-s-regular-line-height: 20px;
+$font-body-xs-regular-size: 11px;
+$font-body-xs-regular-line-height: 16px;
+
+$font-button-l-medium-size: 18px;
+$font-button-l-medium-line-height: 28px;
+$font-button-m-medium-size: 16px;
+$font-button-m-medium-line-height: 24px;
+$font-button-s-medium-size: 13px;
+$font-button-s-medium-line-height: 20px;
+
+$font-weight-bold: 700;
+$font-weight-medium: 500;
+$font-weight-regular: 400;
+$font-weight-light: 300;
+
