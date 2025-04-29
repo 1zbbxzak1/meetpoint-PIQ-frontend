@@ -1,5 +1,5 @@
-@import './variables';
-@import './mixins';
+@use './variables' as *;
+@use './mixins' as *;
 
 .headline-1 {
     @include headline($font-headline-1-size, $font-headline-1-line-height, $font-weight-bold);
