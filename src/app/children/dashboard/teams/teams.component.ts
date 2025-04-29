@@ -40,8 +40,6 @@ export class TeamsComponent {
                                 {fullName: "Анамнешев Николай"},
                                 {fullName: "Куркин Артём"},
                                 {fullName: "Лавринович Станислав"},
-                                {fullName: "Петриченко Максим"},
-                                {fullName: "Лавринович Станислав"},
                                 {fullName: "Петриченко Максим"}
                             ]
                         },
