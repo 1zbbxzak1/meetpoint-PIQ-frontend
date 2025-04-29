@@ -1,0 +1,38 @@
+<div class="auth-container">
+    <div class="auth-1">
+        <form [formGroup]="formAuth" class="auth-form">
+            <div class="headline-2">Авторизация</div>
+            <div class="auth-label email">
+                <input class="input-default button-l-medium"
+                       formControlName="email"
+                       placeholder="Электронная почта"
+                       type="text"/>
+            </div>
+
+            <div class="auth-label password">
+                <div class="input-container">
+                    <input [type]="passwordVisible ? 'text' : 'password'"
+                           class="input-default button-l-medium"
+                           formControlName="password"
+                           placeholder="Пароль"/>
+
+                    <button (click)="togglePassword()"
+                            class="eye-icon"
+                            type="button">
+                        <img [src]="eyeIcon" alt="Пароль" height="24" width="24">
+                    </button>
+                </div>
+
+                <button (click)="loginUser()"
+                        class="accent-button-l-primary-default button-l-medium login"
+                        type="button">
+                    Войти
+                </button>
+            </div>
+
+            <div *ngIf="loginError" class="error-message">
+                {{ loginError }}
+            </div>
+        </form>
+    </div>
+</div>

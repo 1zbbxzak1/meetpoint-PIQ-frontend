@@ -1,0 +1,84 @@
+@use 'ui-kit/variables' as *;
+
+.auth-container {
+    height: 100vh;
+    background: $bg-white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.auth-1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+
+    width: 384px;
+    height: 262px;
+    padding: 50px 40px 40px 40px;
+    border-radius: 20px;
+    border: 1px solid $stroke-light-gray;
+}
+
+.headline-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-label {
+    max-width: 384px;
+    max-height: 48px;
+}
+
+.email {
+    margin-top: 32px;
+    margin-bottom: 16px;
+}
+
+.password {
+    margin-bottom: 24px;
+}
+
+.input-default {
+    width: 352px;
+    height: 26px;
+
+    padding: 10px 16px;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+
+    margin-bottom: 24px;
+}
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.eye-icon img {
+    display: block;
+}
+
+.login {
+    width: 384px;
+    height: 48px;
+    padding: 10px 20px;
+}
