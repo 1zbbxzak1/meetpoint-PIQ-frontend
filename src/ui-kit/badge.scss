@@ -1,0 +1,21 @@
+@use './variables' as *;
+
+.badge {
+    display: inline-flex;
+    padding: 2px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    border-radius: 100px;
+    border: 1px solid $badge-stroke-active;
+
+    background: $badge-bg-active;
+
+    color: $badge-text;
+}
+
+.badge:hover {
+    border: 1px solid $badge-stroke-hover;
+    background: $badge-bg-hover;
+}
