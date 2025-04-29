@@ -65,7 +65,7 @@ export class AuthComponent implements OnInit {
             ).subscribe({
                 next: (): void => {
                     this.loginError = null;
-                    this._router.navigate(['/']);
+                    this._router.navigate(['/teams']);
                 },
                 error: (err): void => {
                     this.loginError = err.message;
