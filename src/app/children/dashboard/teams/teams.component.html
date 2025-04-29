@@ -1,1 +1,37 @@
 <app-header/>
+
+<div class="teams-container">
+    <div class="header-teams">
+        <p class="event body-m-bold">ПП весна 2025</p>
+        <button class="assessment-button button-l-medium accent-button-l-primary-default">Начать тестирование</button>
+    </div>
+
+    <div *ngFor="let group of groups" class="group-teams">
+        <p class="group-title headline-5">{{ group.title }}</p>
+
+        <div *ngFor="let subgroup of group.subgroups; let isLast = last"
+             [ngClass]="{ 'subgroup-last': isLast }"
+             class="subgroup-teams">
+            <p class="subgroup-title body-m-regular">{{ subgroup.title }}</p>
+
+            <div class="card-list">
+                <div *ngFor="let card of subgroup.cards" class="card">
+                    <div class="card-titles">
+                        <p class="card-title body-l-bold">{{ card.title }}</p>
+                        <div *ngIf="card.badge != ''" class="badge badge-teams">
+                            <img alt="alert" height="12" ngSrc="assets/alert-circle.svg" width="12">
+                            <p class="button-s-medium">Требует оценки</p>
+                        </div>
+                    </div>
+
+                    <div class="card-students">
+                        <ng-container *ngFor="let student of card.students; let i = index">
+                            <p class="card-student body-m-regular">{{ student.fullName }}</p>
+                            <span *ngIf="i < card.students.length - 1" class="dot-separator body-m-regular">·</span>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

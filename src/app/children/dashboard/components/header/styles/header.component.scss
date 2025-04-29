@@ -2,19 +2,32 @@
 
 .header {
     display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    border-bottom: 1px solid $stroke-light-gray;
+    background: $bg-white;
+
+    position: fixed;
+}
+
+.header-container {
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 
-    padding: 16px 360px;
+    padding: 16px 16px;
+    margin: 0 auto;
 
-    border-bottom: 1px solid $stroke-light-gray;
-    background: $bg-white;
+    width: 1200px;
 }
 
 .navigation {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
 }
 
