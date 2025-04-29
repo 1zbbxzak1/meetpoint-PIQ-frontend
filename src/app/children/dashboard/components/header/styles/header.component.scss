@@ -1,0 +1,45 @@
+@use 'ui-kit/variables' as *;
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 360px;
+
+    border-bottom: 1px solid $stroke-light-gray;
+    background: $bg-white;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-button,
+.role {
+    display: flex;
+    padding: 10px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 8px;
+    background: $bg-white;
+}
+
+.nav-button {
+    border: none;
+    cursor: pointer;
+}
+
+.nav-button:hover,
+.nav-button.active {
+    background: $bg-light-gray;
+}
+
+.role {
+    border: 1px solid $stroke-light-gray;
+}

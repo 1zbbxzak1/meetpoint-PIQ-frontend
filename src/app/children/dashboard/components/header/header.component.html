@@ -1,0 +1,21 @@
+<div class="header">
+    <div class="navigation">
+        <button [class.active]="statesHeader['isTeams']"
+                class="nav-button button-l-medium"
+                routerLink="/teams"
+                routerLinkActive>
+            Список команд
+        </button>
+        <button [class.active]="statesHeader['isResults']"
+                class="nav-button button-l-medium"
+                routerLink="/results"
+                routerLinkActive>
+            Результаты
+        </button>
+    </div>
+
+    <!--  Заглушка  -->
+    <div class="role body-l-regular">
+        Куратор
+    </div>
+</div>
