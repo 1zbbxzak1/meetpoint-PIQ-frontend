@@ -1,0 +1,23 @@
+@use './variables' as *;
+
+.accent-button-l-primary-default {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    border-radius: 8px;
+    border: 0;
+    background: $button-accent-primary-bg-default;
+
+    color: $text-white;
+}
+
+.accent-button-l-primary-default:hover {
+    background: $button-accent-primary-bg-hover;
+}
+
+.accent-button-l-primary-default:disabled {
+    background: $button-disabled-bg-default;
+    color: $button-disabled-text-icon;
+}
