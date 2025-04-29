@@ -1,0 +1,27 @@
+@use "./variables" as *;
+
+.input-default {
+    border-radius: 4px;
+    border: 1.2px solid $input-stroke-default-active;
+    background: $bg-white;
+}
+
+.input-default:hover,
+.input-default:focus {
+    outline: none;
+    border: 1.2px solid $input-stroke-hover-focused;
+}
+
+.input-default:active {
+    border: 1.2px solid $input-stroke-default-active;
+}
+
+.input-default:disabled {
+    border: 1.2px solid $input-disabled-stroke;
+    background: $input-bg-disabled;
+}
+
+.input-default-error {
+    outline: $input-stroke-text-error;
+    border: 1.2px solid $input-stroke-text-error;
+}
