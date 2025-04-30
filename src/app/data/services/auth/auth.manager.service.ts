@@ -49,17 +49,16 @@ export class AuthManagerService {
         return null;
     }
 
-    // Метод для получения токена из приватного замыкания
+
     public getAccessToken(): string | null {
         const accessToken: string = this._cookieService.get(environment.TOKEN_NAME);
         if (accessToken && this.isTokenExpired()) {
-            this.logout(); // Если токен истек, выполняем logout
+            this.logout();
             return null;
         }
         return accessToken || null;
     }
 
-    // Проверка истечения срока действия токена
     private isTokenExpired(): boolean {
         const loginTimestamp: number | null = this.getLoginTimestamp();
         if (!loginTimestamp) return true;
