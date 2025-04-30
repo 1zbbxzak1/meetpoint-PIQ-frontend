@@ -50,6 +50,7 @@ export class NewAssessmentComponent implements OnInit, OnChanges {
 
     protected selectedTeams: any[] = [];
     protected selectedAssessmentTypes: string[] = [];
+    protected isAssessmentActive: boolean = false;
 
     protected teamsArr = [
         {name: 'ПВК 1'},
@@ -101,6 +102,8 @@ export class NewAssessmentComponent implements OnInit, OnChanges {
             );
 
             this.selectedAssessmentTypes = [...this.editingAssessment.assessmentTypes];
+
+            this.updateAssessmentActiveStatus();
         }
     }
 
@@ -158,6 +161,8 @@ export class NewAssessmentComponent implements OnInit, OnChanges {
     }
 
     protected toggleAssessmentType(type: string): void {
+        if (this.isAssessmentActive) return;
+
         const index = this.selectedAssessmentTypes.indexOf(type);
         if (index > -1) {
             this.selectedAssessmentTypes.splice(index, 1);
@@ -168,5 +173,14 @@ export class NewAssessmentComponent implements OnInit, OnChanges {
 
     protected isAssessmentTypeSelected(type: string): boolean {
         return this.selectedAssessmentTypes.includes(type);
+    }
+
+    private updateAssessmentActiveStatus(): void {
+        const now = new Date();
+        const startDate = new Date(this.editingAssessment.dateStart);
+        const endDate = new Date(this.editingAssessment.dateEnd);
+
+        const isActive: boolean = startDate <= now && endDate >= now;
+        this.isAssessmentActive = isActive;
     }
 }

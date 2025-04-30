@@ -1,6 +1,5 @@
 <div *ngIf="isVisible" class="modal-overlay">
     <div (click)="$event.stopPropagation()" class="modal-container">
-        <!-- Форма -->
         <form [formGroup]="formAssessment" class="modal-content">
             <button (click)="closeModal()" class="x-close">
                 <img alt="Закрыть" height="24" ngSrc="assets/x-close.svg" width="24">
@@ -88,11 +87,13 @@
                 <p class="select-assessment-title body-m-regular">Варианты оценивания</p>
 
                 <div *ngFor="let assessment of assessmentsArr" class="select-assessment body-m-regular">
-                    <input (change)="toggleAssessmentType(assessment.name)"
-                           [checked]="isAssessmentTypeSelected(assessment.name)"
-                           class="custom-checkbox-mini body-m-regular"
-                           id="checkbox-{{ assessment.name }}"
-                           type="checkbox"/>
+                    <input
+                        (change)="toggleAssessmentType(assessment.name)"
+                        (click)="isAssessmentActive ? $event.preventDefault() : null"
+                        [checked]="isAssessmentTypeSelected(assessment.name)"
+                        class="custom-checkbox-mini body-m-regular"
+                        id="checkbox-{{ assessment.name }}"
+                        type="checkbox"/>
                     <label class="body-m-regular" for="checkbox-{{ assessment.name }}">
                         {{ assessment.name }}
                     </label>
