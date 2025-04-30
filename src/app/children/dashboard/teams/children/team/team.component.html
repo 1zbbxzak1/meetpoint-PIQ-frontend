@@ -9,7 +9,8 @@
             </ng-container>
         </div>
 
-        <button class="assessment-button button-l-medium accent-button-l-primary-default">
+        <button (click)="toggleModal('create', true)"
+                class="assessment-button button-l-medium accent-button-l-primary-default">
             Начать оценивание
         </button>
     </div>
@@ -29,7 +30,9 @@
                         </div>
 
                         <div class="card-assessment-active">
-                            <button class="neutral-button-s-no-outline-default button-s-medium">Редактировать</button>
+                            <button class="neutral-button-s-no-outline-default button-s-medium">
+                                Редактировать
+                            </button>
                             <button class="accent-button-s-primary-default button-s-medium">Оценить</button>
                         </div>
                     </div>
@@ -48,7 +51,10 @@
                         </div>
 
                         <div class="card-assessment-future">
-                            <button class="neutral-button-s-no-outline-default button-s-medium">Редактировать</button>
+                            <button (click)="toggleModal('edit', true)"
+                                    class="neutral-button-s-no-outline-default button-s-medium">
+                                Редактировать
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -67,7 +73,8 @@
                         </div>
 
                         <div class="card-assessment-not-complete">
-                            <button class="neutral-button-s-no-outline-default button-s-medium">Посмотреть результаты
+                            <button class="neutral-button-s-no-outline-default button-s-medium">
+                                Посмотреть результаты
                             </button>
                         </div>
                     </div>
@@ -77,3 +84,14 @@
     </div>
 </div>
 
+<app-new-assessment
+    (close)="toggleModal('edit', false)"
+    [isVisible]="modalStates.edit"
+    [title]="'Редактирование оценивания'">
+</app-new-assessment>
+
+<app-new-assessment
+    (close)="toggleModal('create', false)"
+    [isVisible]="modalStates.create"
+    [title]="'Создание нового оценивания'">
+</app-new-assessment>

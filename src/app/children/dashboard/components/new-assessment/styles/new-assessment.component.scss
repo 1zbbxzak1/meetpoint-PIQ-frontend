@@ -1,0 +1,212 @@
+@use 'ui-kit/variables' as *;
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.modal-overlay::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-container {
+    position: relative;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px 32px 20px 32px;
+    width: 524px;
+    box-shadow: 0 8px 16px 0 rgba(35, 35, 35, 0.12);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-container::-webkit-scrollbar {
+    display: none;
+}
+
+.x-close {
+    width: 24px;
+    height: 24px;
+
+    padding: 10px;
+
+    position: absolute;
+    top: 6px;
+    right: 24px;
+
+    background: none;
+    border: none;
+
+    cursor: pointer;
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.modal-content {
+    width: 460px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 24px;
+}
+
+.name-title {
+    margin-bottom: 4px;
+}
+
+.name {
+    width: 428px;
+    height: 24px;
+
+    padding: 8px 16px;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.date-picker {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.date-picker-input {
+    width: 189px;
+    height: 24px;
+
+    padding: 8px 16px;
+    gap: 20px;
+    align-self: stretch;
+
+    color: $text-grey-secondary;
+}
+
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    .date-picker-input {
+        position: relative;
+        z-index: 2;
+        background: transparent;
+        font-family: inherit;
+
+        color: $text-grey-secondary;
+
+        &::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            position: absolute;
+            right: 10px;
+            z-index: 3;
+        }
+    }
+
+    .custom-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+        z-index: 1;
+    }
+}
+
+select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.assessments {
+    margin-bottom: 40px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    padding-top: 20px;
+    border-top: 1px solid $stroke-light-gray;
+}
+
+.dropdown-container {
+    position: relative;
+    width: 100%;
+    z-index: 1000;
+}
+
+.dropdown-input-m-multi {
+    width: 428px;
+    height: 24px;
+}
+
+.dropdown-menu-multi {
+    width: 454px;
+    max-height: 240px;
+    left: 0;
+    overflow-y: auto;
+    z-index: 1000;
+
+    top: 44px;
+}
+
+.label {
+    margin-top: 2px;
+    text-align: center;
+}
+
+.input-active {
+    border: 1.2px solid $input-stroke-hover-focused;
+}
+
+.select-assessment-title {
+    margin-bottom: 12px;
+}
+
+.select-assessment {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+}
+
+.select-assessment:nth-child(3) {
+    padding-top: 8px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

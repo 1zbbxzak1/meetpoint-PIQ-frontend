@@ -1,0 +1,112 @@
+<div *ngIf="isVisible" class="modal-overlay">
+    <div (click)="$event.stopPropagation()" class="modal-container">
+        <!-- Форма -->
+        <form [formGroup]="formAssessment" class="modal-content">
+            <button (click)="closeModal()" class="x-close">
+                <img alt="Закрыть" height="24" ngSrc="assets/x-close.svg" width="24">
+            </button>
+
+            <div class="modal-header">
+                <p class="headline-5">
+                    {{ title }}
+                </p>
+            </div>
+
+            <div>
+                <p class="body-m-regular name-title">Название</p>
+                <input
+                    class="input-default name body-m-regular"
+                    formControlName="name"
+                    id="name"
+                    name="name"
+                    placeholder="Введите название оценивания"
+                    type="text"/>
+            </div>
+
+            <!-- TODO: Стилизовать datetime-local | в крайнем случае реализовать свой -->
+            <div class="date-picker">
+                <div>
+                    <p class="body-m-regular name-title">Дата открытия</p>
+                    <div class="input-wrapper">
+                        <input
+                            class="input-default date-picker-input body-m-regular"
+                            formControlName="dateOpen"
+                            step="300" type="datetime-local"/>
+                        <img alt="calendar" class="custom-icon" src="/assets/calendar.svg"/>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="body-m-regular name-title">Дата закрытия</p>
+                    <div class="input-wrapper">
+                        <input
+                            class="input-default date-picker-input body-m-regular"
+                            formControlName="dateClose"
+                            step="300" type="datetime-local"/>
+                        <img alt="calendar" class="custom-icon" src="/assets/calendar.svg"/>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="showTeamsSelect">
+                <p class="body-m-regular name-title">Команды для оценивания</p>
+                <div class="dropdown-container">
+                    <div class="input-wrapper">
+                        <input
+                            (click)="toggleDropdown()"
+                            [ngClass]="{ 'input-active': isDropdownOpen }"
+                            [value]="getSelectedTeamNames()"
+                            class="dropdown-input-m-multi body-m-regular"
+                            placeholder="Выберите команды"
+                            readonly
+                            type="text"
+                        />
+                        <img
+                            [src]="isDropdownOpen ? 'assets/chevron-up.svg' : 'assets/chevron-down.svg'"
+                            alt="dropdown icon"
+                            class="custom-icon"
+                        />
+                    </div>
+
+                    <!-- Выпадающее меню -->
+                    <div *ngIf="isDropdownOpen" class="dropdown-menu-multi">
+                        <button *ngFor="let team of teamsArr" class="dropdown body-m-regular">
+                            <input (change)="toggleTeam(team.name)"
+                                   [checked]="isTeamSelected(team.name)"
+                                   class="custom-checkbox-mini body-m-regular"
+                                   id="checkbox-{{ team.name }}"
+                                   type="checkbox"/>
+                            <label class="label body-m-regular" for="checkbox-{{ team.name }}">
+                                {{ team.name }}
+                            </label>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="assessments">
+                <p class="select-assessment-title body-m-regular">Варианты оценивания</p>
+
+                <div *ngFor="let assessment of assessmentsArr" class="select-assessment body-m-regular">
+                    <input (change)="toggleTeam(assessment.name)"
+                           [checked]="isTeamSelected(assessment.name)"
+                           class="custom-checkbox-mini body-m-regular"
+                           id="checkbox-{{ assessment.name }}"
+                           type="checkbox"/>
+                    <label class="body-m-regular" for="checkbox-{{ assessment.name }}">
+                        {{ assessment.name }}
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <div class="modal-footer">
+            <button (click)="closeModal()" class="neutral-button-m-outline-default button-m-medium">
+                Отмена
+            </button>
+            <button (click)="confirm()" class="accent-button-m-primary-default button-m-medium">
+                Создать
+            </button>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {EventsManagerService} from '../../../../../data/services/events/events.manager.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {GetEventWithIncludesResponse} from '../../../../../data/model/response/events/IEvent.response';
+import {NewAssessmentComponent} from '../../../components/new-assessment/new-assessment.component';
 
 @Component({
     selector: 'app-team',
@@ -12,6 +13,7 @@ import {GetEventWithIncludesResponse} from '../../../../../data/model/response/e
         HeaderComponent,
         NgIf,
         NgForOf,
+        NewAssessmentComponent,
 
     ],
     templateUrl: './team.component.html',
@@ -20,6 +22,10 @@ import {GetEventWithIncludesResponse} from '../../../../../data/model/response/e
 export class TeamComponent implements OnInit {
     protected teamData: any;
     protected breadcrumbs: string[] = [];
+    protected modalStates = {
+        create: false,
+        edit: false,
+    }
     protected assessments: any = [
         {
             title: 'active',
@@ -81,6 +87,16 @@ export class TeamComponent implements OnInit {
         this._teamId = this._route.snapshot.paramMap.get('id')!;
 
         this.getCurrentEvents();
+    }
+
+    protected toggleModal(type: keyof typeof this.modalStates, state: boolean): void {
+        this.modalStates[type] = state;
+
+        if (state) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 
     private getCurrentEvents(): void {

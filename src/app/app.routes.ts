@@ -14,7 +14,7 @@ export const routes: Routes = [
         component: TeamsComponent,
     },
     {
-        path: 'teams/:id',
+        path: 'teams/team/:id',
         component: TeamComponent,
     },
     {

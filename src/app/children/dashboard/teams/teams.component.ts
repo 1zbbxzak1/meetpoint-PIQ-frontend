@@ -22,8 +22,6 @@ import {Router} from '@angular/router';
 export class TeamsComponent implements OnInit {
     protected events?: GetEventWithIncludesResponse;
 
-    protected selectedTeam: any = null;
-
     protected modalStates = {
         open: false
     }
@@ -38,7 +36,7 @@ export class TeamsComponent implements OnInit {
     }
 
     protected navigateToTeam(teamId: string): void {
-        this._router.navigate(['teams', teamId]);
+        this._router.navigate(['teams/team', teamId]);
     }
 
     protected toggleModal(type: keyof typeof this.modalStates, state: boolean): void {
