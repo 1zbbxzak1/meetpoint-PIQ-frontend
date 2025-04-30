@@ -1,0 +1,79 @@
+<app-header/>
+
+<div class="team-container">
+    <div class="header-team">
+        <div *ngIf="breadcrumbs.length" class="breadcrumbs">
+            <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+                <p class="body-m-bold">{{ crumb }}</p>
+                <p *ngIf="!last" class="body-m-bold">/</p>
+            </ng-container>
+        </div>
+
+        <button class="assessment-button button-l-medium accent-button-l-primary-default">
+            Начать оценивание
+        </button>
+    </div>
+
+    <div class="subgroup-assessments">
+        <div class="subgroup-assessment">
+            <div class="subgroup-assessment-cards">
+                <p class="subgroup-title body-m-regular">Активные<br/>оценивания</p>
+
+                <div class="card-list-active">
+                    <div *ngFor="let assessment of activeAssessments" class="card-active">
+                        <div class="card-titles">
+                            <p class="card-title body-l-bold">{{ assessment.name }}</p>
+
+                            <p class="card-date body-m-regular">{{ assessment.dateStart }}
+                                - {{ assessment.dateEnd }}</p>
+                        </div>
+
+                        <div class="card-assessment-active">
+                            <button class="neutral-button-s-no-outline-default button-s-medium">Редактировать</button>
+                            <button class="accent-button-s-primary-default button-s-medium">Оценить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subgroup-assessment-cards">
+                <p class="subgroup-title body-m-regular">Предстоящие<br/>оценивания</p>
+                <div class="card-list-future">
+                    <div *ngFor="let assessment of futureAssessments" class="card">
+                        <div class="card-titles">
+                            <p class="card-title body-l-bold">{{ assessment.name }}</p>
+
+                            <p class="card-date body-m-regular">{{ assessment.dateStart }}
+                                - {{ assessment.dateEnd }}</p>
+                        </div>
+
+                        <div class="card-assessment-future">
+                            <button class="neutral-button-s-no-outline-default button-s-medium">Редактировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="subgroup-assessment-cards">
+                <p class="subgroup-title body-m-regular">Пройденные<br/>оценивания</p>
+                <div class="card-list-complete">
+                    <div *ngFor="let assessment of completeAssessments" class="card">
+                        <div class="card-titles">
+                            <p class="card-title body-l-bold">{{ assessment.name }}</p>
+
+                            <p class="card-date body-m-regular">{{ assessment.dateStart }}
+                                - {{ assessment.dateEnd }}</p>
+                        </div>
+
+                        <div class="card-assessment-not-complete">
+                            <button class="neutral-button-s-no-outline-default button-s-medium">Посмотреть результаты
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

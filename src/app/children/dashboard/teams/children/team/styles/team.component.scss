@@ -1,0 +1,142 @@
+@use 'ui-kit/variables' as *;
+
+.team-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    max-width: 1200px;
+    margin: 0 auto 0;
+    padding: 104px 16px 40px;
+
+    background: $bg-white;
+}
+
+.header-team {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+}
+
+.breadcrumbs {
+    color: $text-grey-secondary;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.assessment-button {
+    padding: 10px 20px;
+}
+
+.subgroup-assessments {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+.subgroup-assessment {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 60px;
+}
+
+.subgroup-assessment-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    width: 100%;
+
+    padding-bottom: 40px;
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid $stroke-light-gray;
+}
+
+.subgroup-assessment-cards:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.subgroup-title {
+    display: flex;
+
+    width: 180px;
+    padding: 10px 0;
+    align-items: flex-start;
+    gap: 8px;
+
+    color: $text-grey-secondary;
+}
+
+.card-list-active,
+.card-list-future,
+.card-list-complete {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    width: 996px;
+
+    gap: 8px;
+}
+
+.card-active,
+.card {
+    display: flex;
+    padding: 18px 20px;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 95.78%;
+
+    border-radius: 8px;
+    background: $bg-white;
+}
+
+.card-active {
+    border: 1px solid $main-orange-primary;
+}
+
+.card {
+    border: 1px solid $stroke-light-gray;
+}
+
+.card-titles {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    text-align: left;
+
+    gap: 16px;
+}
+
+.card-date {
+    color: $text-grey-secondary;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-assessment-active {
+    display: flex;
+    gap: 8px;
+}
