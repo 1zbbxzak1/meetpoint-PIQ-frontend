@@ -8,7 +8,7 @@ import {GetEventWithIncludesResponse} from '../../model/response/events/IEvent.r
 export class EventsService {
 
     private readonly _http: HttpClient = inject(HttpClient);
-    private readonly _apiUrl: string = `${environment.apiUrl}/events/current`;
+    private readonly _apiUrl: string = `${environment.apiUrlPIQ}/events/current`;
 
     public getCurrent(): Observable<GetEventWithIncludesResponse> {
         return this._http.get<GetEventWithIncludesResponse>(`${this._apiUrl}`)

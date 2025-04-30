@@ -40,6 +40,23 @@ export class AssessmentService {
         return this._createdAssessments.filter(a => a.teams.includes(teamName));
     }
 
+    public getTeamsFromLocalStorage(): string[] {
+        if (!this._isBrowser) return [];
+
+        const stored = localStorage.getItem('createdAssessments');
+        if (!stored) return [];
+        try {
+            const assessments = JSON.parse(stored);
+            const teams = new Set<string>();
+            for (const assessment of assessments) {
+                (assessment.teams || []).forEach((team: string) => teams.add(team));
+            }
+            return Array.from(teams);
+        } catch {
+            return [];
+        }
+    }
+
     private saveToStorage(): void {
         if (this._isBrowser) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(this._createdAssessments));
