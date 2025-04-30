@@ -53,12 +53,37 @@ export class TeamsComponent implements OnInit {
         }
     }
 
-    protected onCreateAssessment(assessment: any): void {
-        this._assessmentService.addAssessment(assessment);
+    protected onCreateAssessment(event: { assessment: any, isEdit: boolean }): void {
+        const {assessment, isEdit} = event;
 
-        for (const teamName of assessment.teams) {
-            this.pendingAssessments[teamName] = true;
+        // Найдём все команды по именам
+        const allTeams = this.events!.event!.directions!
+            .flatMap((direction: any) => direction.projects)
+            .flatMap((project: any) => project.teams) || [];
+
+        if (!assessment.teams) {
+            assessment.teams = [];
         }
+
+        // Добавим команды, если они ещё не добавлены (по именам)
+        for (const teamName of assessment.teams) {
+            if (!this.pendingAssessments[teamName]) {
+                const team = allTeams.find((t: any) => t.name === teamName);
+                if (team) {
+                    this.pendingAssessments[team.name] = true;
+                }
+            }
+        }
+
+        // Добавим или обновим оценку
+        if (!isEdit) {
+            this._assessmentService.addAssessment(assessment);
+        } else {
+            this._assessmentService.updateAssessment(assessment);
+        }
+
+        // Обновим отображение
+        this._cdr.detectChanges();
     }
 
     private getCurrentEvents(): void {
@@ -69,9 +94,16 @@ export class TeamsComponent implements OnInit {
 
             const savedAssessments = this._assessmentService.createdAssessments;
 
+            const allTeams = events!.event!.directions!
+                ?.flatMap(direction => direction.projects)
+                ?.flatMap(project => project!.teams!) || [];
+
             for (const assessment of savedAssessments) {
                 for (const teamName of assessment.teams) {
-                    this.pendingAssessments[teamName] = true;
+                    const teamExists = allTeams.some(team => team.name === teamName);
+                    if (teamExists) {
+                        this.pendingAssessments[teamName] = true;
+                    }
                 }
             }
 

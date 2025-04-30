@@ -116,13 +116,11 @@ export class TeamComponent implements OnInit {
             this._assessmentService.updateAssessment(assessment);
         }
 
-        const serverAssessments = this._events.event.directions
-            .flatMap((direction: any) => direction.projects)
-            .flatMap((project: any) => project.teams)
-            .flatMap((team: any) => team.assessments || []);
+        // Получаем оценки для данной команды из localStorage
+        const assessmentsForTeam = this._assessmentService.getAssessmentsForTeam(team.name);
 
-        const localAssessments = this._assessmentService.createdAssessments;
-        this.assessments = [...serverAssessments, ...localAssessments];
+        // Теперь отображаем только те оценки, которые связаны с этой командой
+        this.assessments = assessmentsForTeam;
 
         this._cdr.detectChanges();
     }
