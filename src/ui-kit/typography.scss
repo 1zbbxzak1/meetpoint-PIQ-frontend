@@ -2,61 +2,61 @@
 @use './mixins' as *;
 
 .headline-1 {
-    @include headline($font-headline-1-size, $font-headline-1-line-height, $font-weight-bold);
+    @include headline($font-bold, $font-headline-1-size, $font-headline-1-line-height);
 }
 
 .headline-2 {
-    @include headline($font-headline-2-size, $font-headline-2-line-height, $font-weight-bold);
+    @include headline($font-bold, $font-headline-2-size, $font-headline-2-line-height);
 }
 
 .headline-3 {
-    @include headline($font-headline-3-size, $font-headline-3-line-height, $font-weight-bold);
+    @include headline($font-bold, $font-headline-3-size, $font-headline-3-line-height);
 }
 
 .headline-4 {
-    @include headline($font-headline-4-size, $font-headline-4-line-height, $font-weight-bold);
+    @include headline($font-bold, $font-headline-4-size, $font-headline-4-line-height);
 }
 
 .headline-5 {
-    @include headline($font-headline-5-size, $font-headline-5-line-height, $font-weight-bold);
+    @include headline($font-bold, $font-headline-5-size, $font-headline-5-line-height);
 }
 
 .body-l-bold {
-    @include headline($font-body-l-bold-size, $font-body-l-bold-line-height, $font-weight-bold);
+    @include headline($font-bold, $font-body-l-bold-size, $font-body-l-bold-line-height);
 }
 
 .body-m-bold {
-    @include headline($font-body-m-bold-size, $font-body-m-bold-line-height, $font-weight-bold);
+    @include headline($font-bold, $font-body-m-bold-size, $font-body-m-bold-line-height);
 }
 
 .body-s-bold {
-    @include headline($font-body-s-bold-size, $font-body-s-bold-line-height, $font-weight-bold);
+    @include headline($font-bold, $font-body-s-bold-size, $font-body-s-bold-line-height);
 }
 
 .body-l-regular {
-    @include headline($font-body-l-regular-size, $font-body-l-regular-line-height, $font-weight-regular);
+    @include headline($font-regular, $font-body-l-regular-size, $font-body-l-regular-line-height);
 }
 
 .body-m-regular {
-    @include headline($font-body-m-regular-size, $font-body-m-regular-line-height, $font-weight-regular);
+    @include headline($font-regular, $font-body-m-regular-size, $font-body-m-regular-line-height);
 }
 
 .body-s-regular {
-    @include headline($font-body-s-regular-size, $font-body-s-bold-line-height, $font-weight-regular);
+    @include headline($font-regular, $font-body-s-regular-size, $font-body-s-bold-line-height);
 }
 
 .body-xs-regular {
-    @include headline($font-body-xs-regular-size, $font-body-xs-regular-line-height, $font-weight-regular);
+    @include headline($font-regular, $font-body-xs-regular-size, $font-body-xs-regular-line-height);
 }
 
 .button-l-medium {
-    @include headline($font-button-l-medium-size, $font-button-l-medium-line-height, $font-weight-medium);
+    @include headline($font-medium, $font-button-l-medium-size, $font-button-l-medium-line-height);
 }
 
 .button-m-medium {
-    @include headline($font-button-m-medium-size, $font-button-m-medium-line-height, $font-weight-medium);
+    @include headline($font-medium, $font-button-m-medium-size, $font-button-m-medium-line-height);
 }
 
 .button-s-medium {
-    @include headline($font-button-s-medium-size, $font-button-s-medium-line-height, $font-weight-medium);
+    @include headline($font-medium, $font-button-s-medium-size, $font-button-s-medium-line-height);
 }
