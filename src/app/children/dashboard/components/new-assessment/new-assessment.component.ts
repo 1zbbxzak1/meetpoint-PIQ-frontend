@@ -1,7 +1,19 @@
-import {ChangeDetectorRef, Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    DestroyRef,
+    EventEmitter,
+    inject,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges
+} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {v4 as uuidv4} from 'uuid';
 
 @Component({
     selector: 'app-new-assessment',
@@ -16,21 +28,28 @@ import {NgClass, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
     templateUrl: './new-assessment.component.html',
     styleUrl: './styles/new-assessment.component.scss'
 })
-export class NewAssessmentComponent implements OnInit {
+export class NewAssessmentComponent implements OnInit, OnChanges {
     @Input()
     public isVisible: boolean = false;
     @Input()
     public teamsId: string[] = [];
     @Input()
     title: string = 'Создание нового оценивания';
+
+    // Заглушки для сохранения и редактирования оценок
+    @Input()
+    public editingAssessment: any = null;
+    @Output()
+    public createAssessment: EventEmitter<{ assessment: any, isEdit: boolean }> = new EventEmitter();
+
     @Output()
     protected close: EventEmitter<void> = new EventEmitter<void>();
-    protected confirmAction: EventEmitter<void> = new EventEmitter<void>();
 
     protected isDropdownOpen: boolean = false;
     protected showTeamsSelect: boolean | null = true;
 
     protected selectedTeams: any[] = [];
+    protected selectedAssessmentTypes: string[] = [];
 
     protected teamsArr = [
         {name: 'ПВК 1'},
@@ -69,6 +88,22 @@ export class NewAssessmentComponent implements OnInit {
         }
     }
 
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes['editingAssessment'] && this.editingAssessment) {
+            this.formAssessment.patchValue({
+                name: this.editingAssessment.name,
+                dateOpen: this.editingAssessment.dateStart,
+                dateClose: this.editingAssessment.dateEnd,
+            });
+
+            this.selectedTeams = this.teamsArr.filter(team =>
+                this.editingAssessment.teams.includes(team.name)
+            );
+
+            this.selectedAssessmentTypes = [...this.editingAssessment.assessmentTypes];
+        }
+    }
+
     protected toggleDropdown(): void {
         this.isDropdownOpen = !this.isDropdownOpen;
     }
@@ -77,8 +112,29 @@ export class NewAssessmentComponent implements OnInit {
         this.close.emit();
     }
 
+    // Заглушка на отработку создания / редактирования
     protected confirm(): void {
-        this.confirmAction.emit();
+        if (this.editingAssessment) {
+            this.editingAssessment.name = this.formAssessment.get('name')?.value;
+            this.editingAssessment.dateStart = this.formAssessment.get('dateOpen')?.value;
+            this.editingAssessment.dateEnd = this.formAssessment.get('dateClose')?.value;
+            this.editingAssessment.assessmentTypes = [...this.selectedAssessmentTypes];
+
+            this.createAssessment.emit({assessment: this.editingAssessment, isEdit: true});
+        } else {
+            const newAssessment = {
+                id: uuidv4(),
+                name: this.formAssessment.get('name')?.value,
+                dateStart: this.formAssessment.get('dateOpen')?.value,
+                dateEnd: this.formAssessment.get('dateClose')?.value,
+                teams: this.selectedTeams.map(t => t.name),
+                assessmentTypes: [...this.selectedAssessmentTypes]
+            };
+
+            this.createAssessment.emit({assessment: newAssessment, isEdit: false});
+        }
+
+        this.closeModal();
     }
 
     protected getSelectedTeamNames(): string {
@@ -101,5 +157,16 @@ export class NewAssessmentComponent implements OnInit {
         return this.selectedTeams.some(t => t.name === teamId);
     }
 
+    protected toggleAssessmentType(type: string): void {
+        const index = this.selectedAssessmentTypes.indexOf(type);
+        if (index > -1) {
+            this.selectedAssessmentTypes.splice(index, 1);
+        } else {
+            this.selectedAssessmentTypes.push(type);
+        }
+    }
 
+    protected isAssessmentTypeSelected(type: string): boolean {
+        return this.selectedAssessmentTypes.includes(type);
+    }
 }

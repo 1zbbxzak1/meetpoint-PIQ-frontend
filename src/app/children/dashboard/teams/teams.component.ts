@@ -6,6 +6,7 @@ import {GetEventWithIncludesResponse} from '../../../data/model/response/events/
 import {EventsManagerService} from '../../../data/services/events/events.manager.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
+import {AssessmentService} from './services/assessment.service';
 
 @Component({
     selector: 'app-teams',
@@ -26,10 +27,13 @@ export class TeamsComponent implements OnInit {
         open: false
     }
 
+    protected pendingAssessments: { [teamName: string]: boolean } = {};
+
     private readonly _router: Router = inject(Router);
     private readonly _destroyRef: DestroyRef = inject(DestroyRef);
     private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
     private readonly _eventsManagerService: EventsManagerService = inject(EventsManagerService);
+    private readonly _assessmentService: AssessmentService = inject(AssessmentService);
 
     public ngOnInit(): void {
         this.getCurrentEvents();
@@ -49,11 +53,27 @@ export class TeamsComponent implements OnInit {
         }
     }
 
+    protected onCreateAssessment(assessment: any): void {
+        this._assessmentService.addAssessment(assessment);
+
+        for (const teamName of assessment.teams) {
+            this.pendingAssessments[teamName] = true;
+        }
+    }
+
     private getCurrentEvents(): void {
         this._eventsManagerService.getCurrent().pipe(
             takeUntilDestroyed(this._destroyRef)
         ).subscribe((events: GetEventWithIncludesResponse): void => {
             this.events = events;
+
+            const savedAssessments = this._assessmentService.createdAssessments;
+
+            for (const assessment of savedAssessments) {
+                for (const teamName of assessment.teams) {
+                    this.pendingAssessments[teamName] = true;
+                }
+            }
 
             this._cdr.detectChanges();
         })

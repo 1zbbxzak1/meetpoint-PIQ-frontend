@@ -23,7 +23,7 @@
                     <div class="card-titles">
                         <p class="card-title body-l-bold">{{ team.name }}</p>
 
-                        <div *ngIf="i === 2 || isLast" class="badge badge-teams">
+                        <div *ngIf="pendingAssessments[team.name!]" class="badge badge-teams">
                             <img alt="alert" height="12" src="assets/alert-circle.svg" width="12">
                             <p class="button-s-medium">Требует оценки</p>
                         </div>
@@ -43,6 +43,7 @@
 
 <app-new-assessment
     (close)="toggleModal('open', false)"
+    (createAssessment)="onCreateAssessment($event)"
     [isVisible]="modalStates.open"
     [title]="'Создание нового оценивания'">
 </app-new-assessment>

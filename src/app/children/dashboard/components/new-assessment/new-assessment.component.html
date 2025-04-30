@@ -88,8 +88,8 @@
                 <p class="select-assessment-title body-m-regular">Варианты оценивания</p>
 
                 <div *ngFor="let assessment of assessmentsArr" class="select-assessment body-m-regular">
-                    <input (change)="toggleTeam(assessment.name)"
-                           [checked]="isTeamSelected(assessment.name)"
+                    <input (change)="toggleAssessmentType(assessment.name)"
+                           [checked]="isAssessmentTypeSelected(assessment.name)"
                            class="custom-checkbox-mini body-m-regular"
                            id="checkbox-{{ assessment.name }}"
                            type="checkbox"/>
@@ -105,7 +105,7 @@
                 Отмена
             </button>
             <button (click)="confirm()" class="accent-button-m-primary-default button-m-medium">
-                Создать
+                {{ editingAssessment ? 'Сохранить' : 'Создать' }}
             </button>
         </div>
     </div>

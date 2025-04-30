@@ -9,6 +9,7 @@ import {AuthService} from './data/services/auth/auth.service';
 import {AuthManagerService} from './data/services/auth/auth.manager.service';
 import {EventsService} from './data/services/events/events.service';
 import {EventsManagerService} from './data/services/events/events.manager.service';
+import {AssessmentService} from './children/dashboard/teams/services/assessment.service';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -31,5 +32,7 @@ export const appConfig: ApplicationConfig = {
 
         EventsService,
         EventsManagerService,
+
+        AssessmentService
     ]
 };

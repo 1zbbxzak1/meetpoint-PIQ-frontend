@@ -25,8 +25,9 @@
                         <div class="card-titles">
                             <p class="card-title body-l-bold">{{ assessment.name }}</p>
 
-                            <p class="card-date body-m-regular">{{ assessment.dateStart }}
-                                - {{ assessment.dateEnd }}</p>
+                            <p class="card-date body-m-regular">
+                                {{ formatDate(assessment.dateStart) }} - {{ formatDate(assessment.dateEnd) }}
+                            </p>
                         </div>
 
                         <div class="card-assessment-active">
@@ -46,12 +47,13 @@
                         <div class="card-titles">
                             <p class="card-title body-l-bold">{{ assessment.name }}</p>
 
-                            <p class="card-date body-m-regular">{{ assessment.dateStart }}
-                                - {{ assessment.dateEnd }}</p>
+                            <p class="card-date body-m-regular">
+                                {{ formatDate(assessment.dateStart) }} - {{ formatDate(assessment.dateEnd) }}
+                            </p>
                         </div>
 
                         <div class="card-assessment-future">
-                            <button (click)="toggleModal('edit', true)"
+                            <button (click)="openEditModal(assessment)"
                                     class="neutral-button-s-no-outline-default button-s-medium">
                                 Редактировать
                             </button>
@@ -68,8 +70,9 @@
                         <div class="card-titles">
                             <p class="card-title body-l-bold">{{ assessment.name }}</p>
 
-                            <p class="card-date body-m-regular">{{ assessment.dateStart }}
-                                - {{ assessment.dateEnd }}</p>
+                            <p class="card-date body-m-regular">
+                                {{ formatDate(assessment.dateStart) }} - {{ formatDate(assessment.dateEnd) }}
+                            </p>
                         </div>
 
                         <div class="card-assessment-not-complete">
@@ -86,12 +89,15 @@
 
 <app-new-assessment
     (close)="toggleModal('edit', false)"
+    (createAssessment)="onCreateAssessment($event)"
+    [editingAssessment]="selectedAssessmentForEdit"
     [isVisible]="modalStates.edit"
     [title]="'Редактирование оценивания'">
 </app-new-assessment>
 
 <app-new-assessment
     (close)="toggleModal('create', false)"
+    (createAssessment)="onCreateAssessment($event)"
     [isVisible]="modalStates.create"
     [title]="'Создание нового оценивания'">
 </app-new-assessment>

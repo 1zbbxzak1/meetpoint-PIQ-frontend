@@ -6,6 +6,7 @@ import {EventsManagerService} from '../../../../../data/services/events/events.m
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {GetEventWithIncludesResponse} from '../../../../../data/model/response/events/IEvent.response';
 import {NewAssessmentComponent} from '../../../components/new-assessment/new-assessment.component';
+import {AssessmentService} from '../../services/assessment.service';
 
 @Component({
     selector: 'app-team',
@@ -26,43 +27,9 @@ export class TeamComponent implements OnInit {
         create: false,
         edit: false,
     }
-    protected assessments: any = [
-        {
-            title: 'active',
-            assessment: [
-                {
-                    name: 'Неделя 3',
-                    dateStart: '17 апр 12:00',
-                    dateEnd: '24 апр 23:55',
-                },
-            ]
-        },
-        {
-            title: 'future',
-            assessment: [
-                {
-                    name: 'Неделя 4',
-                    dateStart: '24 апр 11:00',
-                    dateEnd: '1 мая 23:55',
-                }
-            ]
-        },
-        {
-            title: 'complete',
-            assessment: [
-                {
-                    name: 'Неделя 2',
-                    dateStart: '10 апр 10:00',
-                    dateEnd: '16 апр 23:55',
-                },
-                {
-                    name: 'Неделя 1',
-                    dateStart: '3 апр 12:00',
-                    dateEnd: '9 апр 23:55',
-                }
-            ]
-        }
-    ];
+    protected selectedAssessmentForEdit: any = null;
+
+    protected assessments: any = [];
     private _teamId!: string;
     private _events: any;
     private readonly _route: ActivatedRoute = inject(ActivatedRoute);
@@ -70,23 +37,57 @@ export class TeamComponent implements OnInit {
     private readonly _destroyRef: DestroyRef = inject(DestroyRef);
     private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
     private readonly _eventsManagerService: EventsManagerService = inject(EventsManagerService);
+    private readonly _assessmentService: AssessmentService = inject(AssessmentService);
 
     protected get activeAssessments(): any[] {
-        return this.assessments.find((a: { title: string; }): boolean => a.title === 'active')?.assessment || [];
+        const now = new Date();
+        return this.assessments
+            .filter((a: any) => a.dateStart && a.dateEnd)
+            .filter((assessment: any) => {
+                const startDate = new Date(assessment.dateStart);
+                const endDate = new Date(assessment.dateEnd);
+                return startDate <= now && endDate >= now;
+            })
+            .sort((a: { dateStart: string | number | Date; }, b: {
+                dateStart: string | number | Date;
+            }): number => new Date(b.dateStart).getTime() - new Date(a.dateStart).getTime());
     }
 
     protected get futureAssessments(): any[] {
-        return this.assessments.find((a: { title: string; }): boolean => a.title === 'future')?.assessment || [];
+        const now = new Date();
+        return this.assessments
+            .filter((a: any) => a.dateStart)
+            .filter((assessment: any) => {
+                const startDate = new Date(assessment.dateStart);
+                return startDate > now;
+            })
+            .sort((a: { dateStart: string | number | Date; }, b: {
+                dateStart: string | number | Date;
+            }): number => new Date(b.dateStart).getTime() - new Date(a.dateStart).getTime());
     }
 
     protected get completeAssessments(): any[] {
-        return this.assessments.find((a: { title: string; }): boolean => a.title === 'complete')?.assessment || [];
+        const now = new Date();
+        return this.assessments
+            .filter((a: any) => a.dateEnd)
+            .filter((assessment: any) => {
+                const endDate = new Date(assessment.dateEnd);
+                return endDate < now;
+            })
+            .sort((a: { dateStart: string | number | Date; }, b: {
+                dateStart: string | number | Date;
+            }): number => new Date(b.dateStart).getTime() - new Date(a.dateStart).getTime());
     }
 
     public ngOnInit(): void {
         this._teamId = this._route.snapshot.paramMap.get('id')!;
 
         this.getCurrentEvents();
+    }
+
+    protected openEditModal(assessment: any): void {
+        this.selectedAssessmentForEdit = assessment;
+        this.toggleModal('edit', true);
     }
 
     protected toggleModal(type: keyof typeof this.modalStates, state: boolean): void {
@@ -99,13 +100,68 @@ export class TeamComponent implements OnInit {
         }
     }
 
+    protected onCreateAssessment(event: { assessment: any, isEdit: boolean }): void {
+        const {assessment, isEdit} = event;
+
+        const team = this._events.event.directions
+            .flatMap((direction: any) => direction.projects)
+            .flatMap((project: any) => project.teams)
+            .find((team: any) => team.id === this._teamId);
+
+        if (!isEdit) {
+            assessment.teams = assessment.teams || [];
+            assessment.teams.push(team.name);
+            this._assessmentService.addAssessment(assessment);
+        } else {
+            this._assessmentService.updateAssessment(assessment);
+        }
+
+        const serverAssessments = this._events.event.directions
+            .flatMap((direction: any) => direction.projects)
+            .flatMap((project: any) => project.teams)
+            .flatMap((team: any) => team.assessments || []);
+
+        const localAssessments = this._assessmentService.createdAssessments;
+        this.assessments = [...serverAssessments, ...localAssessments];
+
+        this._cdr.detectChanges();
+    }
+
+    protected formatDate(date: string | Date): string {
+        const d = new Date(date);
+
+        const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
+            day: '2-digit',
+            month: 'short',
+        });
+
+        const timeFormatter = new Intl.DateTimeFormat('ru-RU', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+
+        return `${dateFormatter.format(d)} ${timeFormatter.format(d)}`;
+    }
+
     private getCurrentEvents(): void {
         this._eventsManagerService.getCurrent().pipe(
             takeUntilDestroyed(this._destroyRef)
         ).subscribe((events: GetEventWithIncludesResponse): void => {
             this._events = events;
 
-            this.buildBreadcrumbs();
+            if (this._events && this._events.event && this._events.event.directions) {
+                let serverAssessments = this._events.event.directions
+                    .flatMap((direction: any) => direction.projects)
+                    .flatMap((project: any) => project.teams)
+                    .flatMap((team: any) => team.assessments || []);
+
+                const localAssessments = this._assessmentService.createdAssessments;
+
+                this.assessments = [...serverAssessments, ...localAssessments];
+
+                this.buildBreadcrumbs();
+            }
 
             this._cdr.detectChanges();
         })
