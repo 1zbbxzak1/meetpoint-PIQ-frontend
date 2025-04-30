@@ -7,6 +7,8 @@ import {HTTP_INTERCEPTORS, provideHttpClient} from '@angular/common/http';
 import {JwtTokenInterceptor} from './interceptors/jwt-token.interceptor';
 import {AuthService} from './data/services/auth/auth.service';
 import {AuthManagerService} from './data/services/auth/auth.manager.service';
+import {EventsService} from './data/services/events/events.service';
+import {EventsManagerService} from './data/services/events/events.manager.service';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -26,5 +28,8 @@ export const appConfig: ApplicationConfig = {
 
         AuthService,
         AuthManagerService,
+
+        EventsService,
+        EventsManagerService,
     ]
 };

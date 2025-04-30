@@ -1,6 +1,11 @@
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {HeaderComponent} from '../components/header/header.component';
-import {NgClass, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NewAssessmentComponent} from '../components/new-assessment/new-assessment.component';
+import {GetEventWithIncludesResponse} from '../../../data/model/response/events/IEvent.response';
+import {EventsManagerService} from '../../../data/services/events/events.manager.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-teams',
@@ -9,97 +14,50 @@ import {NgClass, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
         NgForOf,
         NgIf,
         NgClass,
-        NgOptimizedImage
+        NewAssessmentComponent
     ],
     templateUrl: './teams.component.html',
     styleUrl: './styles/teams.component.scss'
 })
-export class TeamsComponent {
-    protected groups = [
-        {
-            title: 'Точка сбора',
-            subgroups: [
-                {
-                    title: 'Личный кабинет',
-                    badge: '',
-                    cards: [
-                        {
-                            title: 'Личный кабинет 1',
-                            badge: '',
-                            students: [
-                                {fullName: "Мельников Михаил"},
-                                {fullName: "Килязова Юния"},
-                                {fullName: "Гавриляк Михаил"},
-                                {fullName: "Полякова Юлия"}
-                            ]
-                        },
-                        {
-                            title: 'Личный кабинет 2',
-                            badge: 'Требует оценки',
-                            students: [
-                                {fullName: "Анамнешев Николай"},
-                                {fullName: "Куркин Артём"},
-                                {fullName: "Лавринович Станислав"},
-                                {fullName: "Петриченко Максим"}
-                            ]
-                        },
-                        {
-                            title: 'Личный кабинет 3',
-                            badge: '',
-                            students: [
-                                {fullName: "Зверев Александр"},
-                                {fullName: "Калугин Илья"},
-                                {fullName: "Новиков Антон"},
-                                {fullName: "Рябков Георгий"}
-                            ]
-                        }
-                    ]
-                },
-                {
-                    title: 'Страницы',
-                    cards: [
-                        {
-                            title: 'Страницы 1',
-                            badge: 'Требует оценки',
-                            students: [
-                                {fullName: "Мельников Михаил"},
-                                {fullName: "Килязова Юния"},
-                                {fullName: "Гавриляк Михаил"},
-                                {fullName: "Полякова Юлия"}
-                            ]
-                        },
-                        {
-                            title: 'Страницы 2',
-                            badge: '',
-                            students: [
-                                {fullName: "Анамнешев Николай"},
-                                {fullName: "Куркин Артём"},
-                                {fullName: "Лавринович Станислав"},
-                                {fullName: "Петриченко Максим"}
-                            ]
-                        }
-                    ]
-                },
-            ]
-        },
-        {
-            title: '1С',
-            subgroups: [
-                {
-                    title: 'УНФ айки',
-                    cards: [
-                        {
-                            title: 'УНФ айки',
-                            badge: '',
-                            students: [
-                                {fullName: "Корелин Никита"},
-                                {fullName: "Олищук Владислав"},
-                                {fullName: "Иванов Максим"}
-                            ]
-                        }
-                    ]
-                }
-            ]
+export class TeamsComponent implements OnInit {
+    protected events?: GetEventWithIncludesResponse;
+
+    protected selectedTeam: any = null;
+
+    protected modalStates = {
+        open: false
+    }
+
+    private readonly _router: Router = inject(Router);
+    private readonly _destroyRef: DestroyRef = inject(DestroyRef);
+    private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+    private readonly _eventsManagerService: EventsManagerService = inject(EventsManagerService);
+
+    public ngOnInit(): void {
+        this.getCurrentEvents();
+    }
+
+    protected navigateToTeam(teamId: string): void {
+        this._router.navigate(['teams', teamId]);
+    }
+
+    protected toggleModal(type: keyof typeof this.modalStates, state: boolean): void {
+        this.modalStates[type] = state;
+
+        if (state) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
         }
-    ];
+    }
+
+    private getCurrentEvents(): void {
+        this._eventsManagerService.getCurrent().pipe(
+            takeUntilDestroyed(this._destroyRef)
+        ).subscribe((events: GetEventWithIncludesResponse): void => {
+            this.events = events;
+
+            this._cdr.detectChanges();
+        })
+    }
 }
