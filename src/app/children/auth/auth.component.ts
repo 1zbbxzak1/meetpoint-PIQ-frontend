@@ -3,7 +3,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {Router} from '@angular/router';
 import {AuthManagerService} from '../../data/services/auth/auth.manager.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {IAuthRequest} from '../../data/model/request/auth/IAuth.request';
+import {IAuthRequest} from '../../data/models/auth/IAuth.request';
 import {NgIf} from '@angular/common';
 
 @Component({
@@ -65,7 +65,7 @@ export class AuthComponent implements OnInit {
             ).subscribe({
                 next: (): void => {
                     this.loginError = null;
-                    this._router.navigate(['/teams']);
+                    this._router.navigate(['teams']);
                 },
                 error: (err): void => {
                     this.loginError = err.message;

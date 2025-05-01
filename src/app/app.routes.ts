@@ -1,8 +1,8 @@
 import {Routes} from '@angular/router';
-import {TeamsComponent} from './children/dashboard/teams/teams.component';
+import {TeamsComponent} from './children/dashboard/pages/teams/teams.component';
 import {AuthComponent} from './children/auth/auth.component';
-import {ResultsComponent} from './children/dashboard/results/results.component';
-import {TeamComponent} from './children/dashboard/teams/children/team/team.component';
+import {ResultsComponent} from './children/dashboard/pages/results/results.component';
+import {TeamComponent} from './children/dashboard/pages/teams/children/team/team.component';
 
 export const routes: Routes = [
     {

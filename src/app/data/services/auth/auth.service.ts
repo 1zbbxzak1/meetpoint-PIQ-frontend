@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IAuthRequest} from '../../model/request/auth/IAuth.request';
+import {IAuthRequest} from '../../models/auth/IAuth.request';
 import {Observable} from 'rxjs';
-import {IAuthResponse} from '../../model/response/auth/IAuth.response';
+import {IAuthResponse} from '../../models/auth/IAuth.response';
 import {environment} from '../../../../environments/environment';
 
 @Injectable()

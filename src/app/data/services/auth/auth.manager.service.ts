@@ -2,12 +2,12 @@ import {inject, Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
-import {IAuthRequest} from '../../model/request/auth/IAuth.request';
+import {IAuthRequest} from '../../models/auth/IAuth.request';
 import {catchError, map, Observable, throwError} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {HttpErrorResponse} from '@angular/common/http';
 import {jwtDecode} from 'jwt-decode';
-import {IAuthResponse} from '../../model/response/auth/IAuth.response';
+import {IAuthResponse} from '../../models/auth/IAuth.response';
 
 @Injectable()
 export class AuthManagerService {

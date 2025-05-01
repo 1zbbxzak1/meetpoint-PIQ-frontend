@@ -1,6 +1,6 @@
 import {ErrorHandler, inject, Injectable} from '@angular/core';
 import {catchError, NEVER, Observable} from 'rxjs';
-import {GetEventWithIncludesResponse} from '../../model/response/events/IEvent.response';
+import {GetEventWithIncludesResponse} from '../../models/events/IEvents.response';
 import {EventsService} from './events.service';
 
 @Injectable()

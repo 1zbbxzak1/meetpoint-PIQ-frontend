@@ -1,9 +1,9 @@
 import {ChangeDetectorRef, Component, DestroyRef, inject, OnInit} from '@angular/core';
-import {HeaderComponent} from '../components/header/header.component';
+import {HeaderComponent} from '../../components/header/header.component';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
-import {NewAssessmentComponent} from '../components/new-assessment/new-assessment.component';
-import {GetEventWithIncludesResponse} from '../../../data/model/response/events/IEvent.response';
-import {EventsManagerService} from '../../../data/services/events/events.manager.service';
+import {NewAssessmentComponent} from '../../components/new-assessment/new-assessment.component';
+import {GetEventWithIncludesResponse} from '../../../../data/models/events/IEvents.response';
+import {EventsManagerService} from '../../../../data/services/events/events.manager.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
 import {AssessmentService} from './services/assessment.service';
