@@ -3,7 +3,7 @@ import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
 import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS, provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {JwtTokenInterceptor} from './interceptors/jwt-token.interceptor';
 import {AuthService} from './data/services/auth/auth.service';
 import {AuthManagerService} from './data/services/auth/auth.manager.service';
@@ -16,12 +16,9 @@ export const appConfig: ApplicationConfig = {
         provideZoneChangeDetection({eventCoalescing: true}),
         provideRouter(routes),
         provideClientHydration(withEventReplay()),
-        provideHttpClient(),
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: JwtTokenInterceptor,
-            multi: true
-        },
+        provideHttpClient(
+            withInterceptors([JwtTokenInterceptor])
+        ),
         {
             provide: LOCALE_ID,
             useValue: 'ru'

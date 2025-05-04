@@ -1,26 +1,26 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
+import {inject} from '@angular/core';
 import {catchError, Observable, throwError} from 'rxjs';
 import {AuthManagerService} from '../data/services/auth/auth.manager.service';
 
-@Injectable()
-export class JwtTokenInterceptor implements HttpInterceptor {
-    private readonly _authManagerService: AuthManagerService = inject(AuthManagerService);
+export const JwtTokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
+    const authManagerService: AuthManagerService = inject(AuthManagerService);
+    const accessToken: string | null = authManagerService.getAccessToken();
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const accessToken: string | null = this._authManagerService.getAccessToken();
+    const authReq = accessToken
+        ? req.clone({
+            setHeaders: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        : req;
 
-        const authReq: HttpRequest<any> = accessToken
-            ? req.clone({headers: req.headers.set('Authorization', `Bearer ${accessToken}`)})
-            : req;
-
-        return next.handle(authReq).pipe(
-            catchError((error: HttpErrorResponse) => {
-                if (error.status === 401) {
-                    this._authManagerService.logout();
-                }
-                return throwError(() => new Error(error.message));
-            })
-        );
-    }
+    return next(authReq).pipe(
+        catchError((error: HttpErrorResponse): Observable<never> => {
+            if (error.status === 401) {
+                authManagerService.logout();
+            }
+            return throwError(() => new Error(error.message));
+        })
+    );
 }
