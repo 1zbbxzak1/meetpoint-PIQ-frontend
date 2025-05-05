@@ -1,6 +1,6 @@
 import {ErrorHandler, inject, Injectable} from '@angular/core';
 import {catchError, NEVER, Observable} from 'rxjs';
-import {GetEventWithIncludesResponse} from '../../models/events/IEvents.response';
+import {GetEventHierarchyResponse} from '../../models/events/IGetEventHierarchy.response';
 import {EventsService} from './events.service';
 import {ICreateTeamsAssessmentRequest} from '../../models/events/ICreateTeamsAssessment.request';
 import {AssessmentDto} from '../../dto/AssessmentDto';
@@ -11,7 +11,7 @@ export class EventsManagerService {
     private readonly _eventsService: EventsService = inject(EventsService);
     private readonly _errorHandler: ErrorHandler = inject(ErrorHandler);
 
-    public getCurrent(): Observable<GetEventWithIncludesResponse> {
+    public getCurrent(): Observable<GetEventHierarchyResponse> {
         return this._eventsService.getCurrent().pipe(
             catchError((err) => {
                 this._errorHandler.handleError(err);

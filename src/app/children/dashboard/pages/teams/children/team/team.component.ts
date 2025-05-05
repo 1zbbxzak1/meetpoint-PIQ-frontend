@@ -4,7 +4,7 @@ import {HeaderComponent} from '../../../../components/header/header.component';
 import {NgForOf, NgIf} from '@angular/common';
 import {EventsManagerService} from '../../../../../../data/services/events/events.manager.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {GetEventWithIncludesResponse} from '../../../../../../data/models/events/IEvents.response';
+import {GetEventHierarchyResponse} from '../../../../../../data/models/events/IGetEventHierarchy.response';
 import {NewAssessmentComponent} from '../../../../components/new-assessment/new-assessment.component';
 import {AssessmentService} from '../../services/assessment.service';
 
@@ -145,7 +145,7 @@ export class TeamComponent implements OnInit {
     private getCurrentEvents(): void {
         this._eventsManagerService.getCurrent().pipe(
             takeUntilDestroyed(this._destroyRef)
-        ).subscribe((events: GetEventWithIncludesResponse): void => {
+        ).subscribe((events: GetEventHierarchyResponse): void => {
             this._events = events;
 
             if (this._events && this._events.event && this._events.event.directions) {

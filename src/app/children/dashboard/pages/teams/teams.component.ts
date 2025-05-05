@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, DestroyRef, inject, OnInit} from '@angular
 import {HeaderComponent} from '../../components/header/header.component';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {NewAssessmentComponent} from '../../components/new-assessment/new-assessment.component';
-import {GetEventWithIncludesResponse} from '../../../../data/models/events/IEvents.response';
+import {GetEventHierarchyResponse} from '../../../../data/models/events/IGetEventHierarchy.response';
 import {EventsManagerService} from '../../../../data/services/events/events.manager.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
@@ -21,7 +21,7 @@ import {AssessmentService} from './services/assessment.service';
     styleUrl: './styles/teams.component.scss'
 })
 export class TeamsComponent implements OnInit {
-    protected events?: GetEventWithIncludesResponse;
+    protected events?: GetEventHierarchyResponse;
 
     protected modalStates = {
         open: false
@@ -89,7 +89,7 @@ export class TeamsComponent implements OnInit {
     private getCurrentEvents(): void {
         this._eventsManagerService.getCurrent().pipe(
             takeUntilDestroyed(this._destroyRef)
-        ).subscribe((events: GetEventWithIncludesResponse): void => {
+        ).subscribe((events: GetEventHierarchyResponse): void => {
             this.events = events;
 
             const savedAssessments = this._assessmentService.createdAssessments;
