@@ -9,6 +9,10 @@ import {AuthService} from './data/services/auth/auth.service';
 import {AuthManagerService} from './data/services/auth/auth.manager.service';
 import {EventsService} from './data/services/events/events.service';
 import {EventsManagerService} from './data/services/events/events.manager.service';
+import {AssessmentsService} from './data/services/assessments/assessments.service';
+import {AssessmentsManagerService} from './data/services/assessments/assessments.manager.service';
+import {TeamsService} from './data/services/teams/teams.service';
+import {TeamsManagerService} from './data/services/teams/teams.manager.service';
 import {AssessmentService} from './children/dashboard/pages/teams/services/assessment.service';
 
 export const appConfig: ApplicationConfig = {
@@ -30,6 +34,9 @@ export const appConfig: ApplicationConfig = {
         EventsService,
         EventsManagerService,
 
-        AssessmentService
+        AssessmentService,
+
+        AssessmentsService,
+        AssessmentsManagerService,
     ]
 };
