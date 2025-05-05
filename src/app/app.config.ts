@@ -13,7 +13,6 @@ import {AssessmentsService} from './data/services/assessments/assessments.servic
 import {AssessmentsManagerService} from './data/services/assessments/assessments.manager.service';
 import {TeamsService} from './data/services/teams/teams.service';
 import {TeamsManagerService} from './data/services/teams/teams.manager.service';
-import {AssessmentService} from './children/dashboard/pages/teams/services/assessment.service';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -33,8 +32,6 @@ export const appConfig: ApplicationConfig = {
 
         EventsService,
         EventsManagerService,
-
-        AssessmentService,
 
         AssessmentsService,
         AssessmentsManagerService,

@@ -26,7 +26,7 @@
                             <p class="card-title body-l-bold">{{ assessment.name }}</p>
 
                             <p class="card-date body-m-regular">
-                                {{ formatDate(assessment.dateStart) }} - {{ formatDate(assessment.dateEnd) }}
+                                {{ formatDate(assessment.startDate) }} - {{ formatDate(assessment.endDate) }}
                             </p>
                         </div>
 
@@ -49,7 +49,7 @@
                             <p class="card-title body-l-bold">{{ assessment.name }}</p>
 
                             <p class="card-date body-m-regular">
-                                {{ formatDate(assessment.dateStart) }} - {{ formatDate(assessment.dateEnd) }}
+                                {{ formatDate(assessment.startDate) }} - {{ formatDate(assessment.endDate) }}
                             </p>
                         </div>
 
@@ -72,7 +72,7 @@
                             <p class="card-title body-l-bold">{{ assessment.name }}</p>
 
                             <p class="card-date body-m-regular">
-                                {{ formatDate(assessment.dateStart) }} - {{ formatDate(assessment.dateEnd) }}
+                                {{ formatDate(assessment.startDate) }} - {{ formatDate(assessment.endDate) }}
                             </p>
                         </div>
 
@@ -90,7 +90,7 @@
 
 <app-new-assessment
     (close)="toggleModal('edit', false)"
-    (createAssessment)="onCreateAssessment($event)"
+    (createAssessment)="handleAssessmentSaved()"
     [editingAssessment]="selectedAssessmentForEdit"
     [isVisible]="modalStates.edit"
     [title]="'Редактирование оценивания'">
@@ -98,7 +98,8 @@
 
 <app-new-assessment
     (close)="toggleModal('create', false)"
-    (createAssessment)="onCreateAssessment($event)"
+    (createAssessment)="handleAssessmentSaved()"
     [isVisible]="modalStates.create"
+    [teamId]="this.teamId"
     [title]="'Создание нового оценивания'">
 </app-new-assessment>

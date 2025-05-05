@@ -69,7 +69,7 @@
 
                     <!-- Выпадающее меню -->
                     <div *ngIf="isDropdownOpen" class="dropdown-menu-multi">
-                        <button *ngFor="let team of teamsArr" class="dropdown body-m-regular">
+                        <button *ngFor="let team of Object.values(teamsArr)" class="dropdown body-m-regular">
                             <input (change)="toggleTeam(team.name)"
                                    [checked]="isTeamSelected(team.name)"
                                    class="custom-checkbox-mini body-m-regular"
@@ -88,14 +88,15 @@
 
                 <div *ngFor="let assessment of assessmentsArr" class="select-assessment body-m-regular">
                     <input
-                        (change)="toggleAssessmentType(assessment.name)"
+                        (change)="toggleAssessmentType(assessment.type)"
                         (click)="isAssessmentActive ? $event.preventDefault() : null"
-                        [checked]="isAssessmentTypeSelected(assessment.name)"
+                        [checked]="assessment.checked"
+                        [ngClass]="{ 'disabled': isAssessmentActive }"
                         class="custom-checkbox-mini body-m-regular"
-                        id="checkbox-{{ assessment.name }}"
+                        id="checkbox-{{ assessment.label }}"
                         type="checkbox"/>
-                    <label class="body-m-regular" for="checkbox-{{ assessment.name }}">
-                        {{ assessment.name }}
+                    <label class="body-m-regular" for="checkbox-{{ assessment.label }}">
+                        {{ assessment.label }}
                     </label>
                 </div>
             </div>

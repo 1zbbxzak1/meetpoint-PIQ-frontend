@@ -6,7 +6,8 @@ import {EventsManagerService} from '../../../../../../data/services/events/event
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {GetEventHierarchyResponse} from '../../../../../../data/models/events/IGetEventHierarchy.response';
 import {NewAssessmentComponent} from '../../../../components/new-assessment/new-assessment.component';
-import {AssessmentService} from '../../services/assessment.service';
+import {TeamsManagerService} from '../../../../../../data/services/teams/teams.manager.service';
+import {AssessmentDto} from '../../../../../../data/dto/AssessmentDto';
 
 @Component({
     selector: 'app-team',
@@ -27,65 +28,64 @@ export class TeamComponent implements OnInit {
         create: false,
         edit: false,
     }
-    protected selectedAssessmentForEdit: any = null;
+    protected selectedAssessmentForEdit: AssessmentDto | null = null;
 
-    protected assessments: any = [];
-    private _teamId!: string;
+    protected assessments: AssessmentDto[] = [];
+    protected teamId: string = '';
     private _events: any;
     private readonly _route: ActivatedRoute = inject(ActivatedRoute);
     private readonly _router: Router = inject(Router);
     private readonly _destroyRef: DestroyRef = inject(DestroyRef);
     private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
     private readonly _eventsManagerService: EventsManagerService = inject(EventsManagerService);
-    private readonly _assessmentService: AssessmentService = inject(AssessmentService);
+    private readonly _teamsManagerService: TeamsManagerService = inject(TeamsManagerService);
 
-    protected get activeAssessments(): any[] {
+    protected get activeAssessments(): AssessmentDto[] {
         const now = new Date();
         return this.assessments
-            .filter((a: any) => a.dateStart && a.dateEnd)
-            .filter((assessment: any) => {
-                const startDate = new Date(assessment.dateStart);
-                const endDate = new Date(assessment.dateEnd);
+            .filter((a): boolean => a.startDate !== undefined && a.endDate !== undefined)
+            .filter((assessment): boolean => {
+                const startDate = new Date(assessment.startDate);
+                const endDate = new Date(assessment.endDate);
                 return startDate <= now && endDate >= now;
             })
-            .sort((a: { dateStart: string | number | Date; }, b: {
-                dateStart: string | number | Date;
-            }): number => new Date(b.dateStart).getTime() - new Date(a.dateStart).getTime());
+            .sort((a, b): number =>
+                new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
     }
 
-    protected get futureAssessments(): any[] {
+    protected get futureAssessments(): AssessmentDto[] {
         const now = new Date();
         return this.assessments
-            .filter((a: any) => a.dateStart)
-            .filter((assessment: any) => {
-                const startDate = new Date(assessment.dateStart);
+            .filter((a): boolean => a.startDate !== undefined)
+            .filter((assessment): boolean => {
+                const startDate = new Date(assessment.startDate);
                 return startDate > now;
             })
-            .sort((a: { dateStart: string | number | Date; }, b: {
-                dateStart: string | number | Date;
-            }): number => new Date(b.dateStart).getTime() - new Date(a.dateStart).getTime());
+            .sort((a, b): number =>
+                new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
     }
 
-    protected get completeAssessments(): any[] {
+    protected get completeAssessments(): AssessmentDto[] {
         const now = new Date();
         return this.assessments
-            .filter((a: any) => a.dateEnd)
-            .filter((assessment: any) => {
-                const endDate = new Date(assessment.dateEnd);
+            .filter((a): boolean => a.endDate !== undefined)
+            .filter((assessment): boolean => {
+                const endDate = new Date(assessment.endDate);
                 return endDate < now;
             })
-            .sort((a: { dateStart: string | number | Date; }, b: {
-                dateStart: string | number | Date;
-            }): number => new Date(b.dateStart).getTime() - new Date(a.dateStart).getTime());
+            .sort((a, b): number =>
+                new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
     }
 
     public ngOnInit(): void {
-        this._teamId = this._route.snapshot.paramMap.get('id')!;
+        this.teamId = this._route.snapshot.paramMap.get('id')!;
+
+        this.loadAssessments();
 
         this.getCurrentEvents();
     }
 
-    protected openEditModal(assessment: any): void {
+    protected openEditModal(assessment: AssessmentDto): void {
         this.selectedAssessmentForEdit = assessment;
         this.toggleModal('edit', true);
     }
@@ -98,31 +98,6 @@ export class TeamComponent implements OnInit {
         } else {
             document.body.style.overflow = '';
         }
-    }
-
-    protected onCreateAssessment(event: { assessment: any, isEdit: boolean }): void {
-        const {assessment, isEdit} = event;
-
-        const team = this._events.event.directions
-            .flatMap((direction: any) => direction.projects)
-            .flatMap((project: any) => project.teams)
-            .find((team: any) => team.id === this._teamId);
-
-        if (!isEdit) {
-            assessment.teams = assessment.teams || [];
-            assessment.teams.push(team.name);
-            this._assessmentService.addAssessment(assessment);
-        } else {
-            this._assessmentService.updateAssessment(assessment);
-        }
-
-        // Получаем оценки для данной команды из localStorage
-        const assessmentsForTeam = this._assessmentService.getAssessmentsForTeam(team.name);
-
-        // Теперь отображаем только те оценки, которые связаны с этой командой
-        this.assessments = assessmentsForTeam;
-
-        this._cdr.detectChanges();
     }
 
     protected formatDate(date: string | Date): string {
@@ -142,6 +117,12 @@ export class TeamComponent implements OnInit {
         return `${dateFormatter.format(d)} ${timeFormatter.format(d)}`;
     }
 
+    protected handleAssessmentSaved(): void {
+        this.loadAssessments();
+        this.toggleModal('edit', false);
+        this.toggleModal('create', false);
+    }
+
     private getCurrentEvents(): void {
         this._eventsManagerService.getCurrent().pipe(
             takeUntilDestroyed(this._destroyRef)
@@ -149,15 +130,6 @@ export class TeamComponent implements OnInit {
             this._events = events;
 
             if (this._events && this._events.event && this._events.event.directions) {
-                let serverAssessments = this._events.event.directions
-                    .flatMap((direction: any) => direction.projects)
-                    .flatMap((project: any) => project.teams)
-                    .flatMap((team: any) => team.assessments || []);
-
-                const localAssessments = this._assessmentService.createdAssessments;
-
-                this.assessments = [...serverAssessments, ...localAssessments];
-
                 this.buildBreadcrumbs();
             }
 
@@ -168,7 +140,7 @@ export class TeamComponent implements OnInit {
     private buildBreadcrumbs(): void {
         for (const direction of this._events.event.directions) {
             for (const project of direction.projects) {
-                const foundTeam = project.teams.find((t: any): boolean => t.id === this._teamId);
+                const foundTeam = project.teams.find((t: any): boolean => t.id === this.teamId);
                 if (foundTeam) {
                     this.teamData = foundTeam;
                     this.breadcrumbs = [
@@ -181,5 +153,14 @@ export class TeamComponent implements OnInit {
                 }
             }
         }
+    }
+
+    private loadAssessments(): void {
+        this._teamsManagerService.getTeamAssessment(this.teamId).pipe(
+            takeUntilDestroyed(this._destroyRef),
+        ).subscribe((assessments: AssessmentDto[]): void => {
+            this.assessments = assessments;
+            this._cdr.detectChanges();
+        });
     }
 }

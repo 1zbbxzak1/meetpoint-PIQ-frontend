@@ -114,6 +114,10 @@
     cursor: pointer;
 }
 
+.custom-checkbox-mini.disabled {
+    cursor: not-allowed;
+}
+
 .custom-checkbox-mini::after {
     content: "";
     position: absolute;

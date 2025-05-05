@@ -6,7 +6,11 @@ import {GetEventHierarchyResponse} from '../../../../data/models/events/IGetEven
 import {EventsManagerService} from '../../../../data/services/events/events.manager.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
-import {AssessmentService} from './services/assessment.service';
+import {TeamsManagerService} from '../../../../data/services/teams/teams.manager.service';
+import {AssessmentDto} from '../../../../data/dto/AssessmentDto';
+import {TeamDto} from '../../../../data/dto/TeamDto';
+import {DirectionDto} from '../../../../data/dto/DirectionDto';
+import {ProjectDto} from '../../../../data/dto/ProjectDto';
 
 @Component({
     selector: 'app-teams',
@@ -33,7 +37,7 @@ export class TeamsComponent implements OnInit {
     private readonly _destroyRef: DestroyRef = inject(DestroyRef);
     private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
     private readonly _eventsManagerService: EventsManagerService = inject(EventsManagerService);
-    private readonly _assessmentService: AssessmentService = inject(AssessmentService);
+    private readonly _teamsManagerService: TeamsManagerService = inject(TeamsManagerService);
 
     public ngOnInit(): void {
         this.getCurrentEvents();
@@ -53,61 +57,40 @@ export class TeamsComponent implements OnInit {
         }
     }
 
-    protected onCreateAssessment(event: { assessment: any, isEdit: boolean }): void {
-        const {assessment, isEdit} = event;
-
-        // Найдём все команды по именам
-        const allTeams = this.events!.event!.directions!
-            .flatMap((direction: any) => direction.projects)
-            .flatMap((project: any) => project.teams) || [];
-
-        if (!assessment.teams) {
-            assessment.teams = [];
-        }
-
-        // Добавим команды, если они ещё не добавлены (по именам)
-        for (const teamName of assessment.teams) {
-            if (!this.pendingAssessments[teamName]) {
-                const team = allTeams.find((t: any) => t.name === teamName);
-                if (team) {
-                    this.pendingAssessments[team.name] = true;
-                }
-            }
-        }
-
-        // Добавим или обновим оценку
-        if (!isEdit) {
-            this._assessmentService.addAssessment(assessment);
-        } else {
-            this._assessmentService.updateAssessment(assessment);
-        }
-
-        // Обновим отображение
-        this._cdr.detectChanges();
-    }
-
     private getCurrentEvents(): void {
         this._eventsManagerService.getCurrent().pipe(
             takeUntilDestroyed(this._destroyRef)
         ).subscribe((events: GetEventHierarchyResponse): void => {
             this.events = events;
 
-            const savedAssessments = this._assessmentService.createdAssessments;
+            this.initializeActiveAssessments();
 
-            const allTeams = events!.event!.directions!
-                ?.flatMap(direction => direction.projects)
-                ?.flatMap(project => project!.teams!) || [];
-
-            for (const assessment of savedAssessments) {
-                for (const teamName of assessment.teams) {
-                    const teamExists = allTeams.some(team => team.name === teamName);
-                    if (teamExists) {
-                        this.pendingAssessments[teamName] = true;
-                    }
-                }
-            }
-
-            this._cdr.detectChanges();
+            this._cdr.markForCheck();
         })
+    }
+
+    private initializeActiveAssessments(): void {
+        const allTeams: (TeamDto | null)[] = this.events?.event?.directions
+            ?.flatMap((direction: DirectionDto): ProjectDto[] | null => direction.projects)
+            ?.flatMap((project: ProjectDto | null): TeamDto[] | null => project!.teams) || [];
+
+        allTeams.forEach((team: TeamDto | null): void => {
+            this._teamsManagerService.getTeamAssessment(team!.id).subscribe((assessments: AssessmentDto[]): void => {
+                const activeAssessment: AssessmentDto | null = this.getActiveAssessment(assessments);
+                if (activeAssessment) {
+                    this.pendingAssessments[team!.name!] = true;
+                }
+                this._cdr.detectChanges();
+            });
+        });
+    }
+
+    private getActiveAssessment(assessments: AssessmentDto[]): AssessmentDto | null {
+        const currentDate = new Date();
+        return assessments.find((assessment: AssessmentDto): boolean => {
+            const startDate = new Date(assessment.startDate);
+            const endDate = new Date(assessment.endDate);
+            return currentDate >= startDate && currentDate <= endDate;
+        }) || null;
     }
 }
