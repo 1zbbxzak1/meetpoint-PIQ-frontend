@@ -38,5 +38,8 @@ export const appConfig: ApplicationConfig = {
 
         AssessmentsService,
         AssessmentsManagerService,
+
+        TeamsService,
+        TeamsManagerService,
     ]
 };
