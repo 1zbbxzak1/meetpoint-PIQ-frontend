@@ -49,6 +49,10 @@
     @include headline($font-regular, $font-body-xs-regular-size, $font-body-xs-regular-line-height);
 }
 
+.button-l-regular {
+    @include headline($font-regular, $font-body-l-regular-size, $font-button-l-medium-line-height);
+}
+
 .button-l-medium {
     @include headline($font-medium, $font-button-l-medium-size, $font-button-l-medium-line-height);
 }

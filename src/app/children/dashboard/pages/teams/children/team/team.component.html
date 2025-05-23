@@ -33,7 +33,10 @@
                         </div>
 
                         <div class="card-assessment-active">
-                            <button class="accent-button-s-primary-default button-s-medium">Оценить</button>
+                            <button (click)="navigateToAssessment(assessment.id)"
+                                    class="accent-button-s-primary-default button-s-medium">
+                                Оценить
+                            </button>
 
                             <div>
                                 <button (click)="toggleDropdown(assessment.id); $event.stopPropagation()"

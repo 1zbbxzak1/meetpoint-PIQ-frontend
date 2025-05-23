@@ -1,0 +1,150 @@
+<div class="form-assessment-container">
+    <ng-container *ngIf="!isLoading; else loadingTemplate">
+        <div class="form-assessment-header">
+            <button (click)="navigateBackToTeam()" class="header-1">
+                <img class="arrow-default" height="24" ngSrc="assets/arrow-narrow-left.svg" width="24"/>
+                <img class="arrow-hover" height="24" ngSrc="assets/arrow-narrow-left-hover.svg" width="24"/>
+                <p class="button-m-medium">Назад</p>
+            </button>
+
+            <div class="header-2">
+                <p class="headline-3">
+                    Название оценивания
+                </p>
+            </div>
+        </div>
+
+        <div class="step-by-step">
+            <div class="stepper">
+                <ng-container *ngFor="let step of steps; let i = index; let last = last">
+                    <div [ngClass]="step.status" class="step">
+                        <div class="circle">
+                            <ng-container [ngSwitch]="step.status">
+                                <p *ngSwitchCase="'finished'" class="finish">
+                                    <img height="16" ngSrc="assets/check-step.svg" width="16">
+                                </p>
+                                <span *ngSwitchCase="'active'">{{ i + 1 }}</span>
+                                <span *ngSwitchDefault>{{ i + 1 }}</span>
+                            </ng-container>
+                        </div>
+                        <div [ngClass]="{'body-m-bold': true, 'text-grey-secondary': step.status === 'waiting'}"
+                             class="title">
+                            {{ getShortName(step.user.fullName) }}
+                        </div>
+                    </div>
+                    <div *ngIf="!last"
+                         [ngClass]="{
+        'line': true,
+        'line-active': steps[i].status === 'finished' && steps[i + 1].status !== 'waiting'
+     }"></div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="form-one">
+            <p class="headline-5 header-3">Оценка 360</p>
+
+            <div *ngFor="let form of usedFormOne">
+                <div *ngFor="let question of form.questions; let i = index" class="form-card-one">
+                    <div class="info-form-card-one">
+                        <p>{{ i + 1 }}.&nbsp;</p>
+                        <p>{{ question.text }}</p>
+                    </div>
+
+                    <div class="buttons-form-one">
+                        <button (click)="selectChoice(question.id, choice.id)"
+                                *ngFor="let choice of question.choices"
+                                [ngClass]="{ 'selected': isSelected(question.id, choice.id) }"
+                                class="neutral-button-minor-form button-form-one">
+                            {{ choice.text }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="usedFormTwo.length > 0" class="form-two">
+            <p class="headline-5 header-3">Оценка поведения</p>
+
+            <div *ngFor="let form of usedFormTwo">
+                <div *ngFor="let question of form.questions; let i = index" class="form-card-two">
+                    <div class="info-form-card-one">
+                        <p>{{ i + 1 }}.&nbsp;</p>
+                        <p>{{ question.text }}</p>
+                    </div>
+
+                    <div class="buttons-form-two">
+                        <div (click)="selectChoice(question.id, choice.id)"
+                             *ngFor="let choice of question.choices"
+                             class="button-form-two">
+                            <button [ngClass]="{ 'selected-button': isSelected(question.id, choice.id) }"
+                                    class="radiobutton-form-off">
+                                <span *ngIf="isSelected(question.id, choice.id)" class="radiobutton-dot"></span>
+                            </button>
+                            <p>{{ choice.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-buttons">
+            <!-- Кнопка "Назад" -->
+            <button (click)="goToPreviousUser()" *ngIf="currentIndex > 0"
+                    class="neutral-button-l-outline-default button-l-regular">
+                Назад
+            </button>
+
+            <!-- Кнопки справа -->
+            <div class="buttons-end">
+                <button (click)="nextStep()" *ngIf="currentIndex >= 0 && currentIndex < steps.length - 1"
+                        class="accent-button-l-primary-default button-l-regular">
+                    Далее
+                </button>
+
+                <button (click)="nextStep()" *ngIf="currentIndex === steps.length - 1"
+                        class="accent-button-l-primary-default button-l-regular">
+                    Завершить
+                </button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #loadingTemplate>
+        <!-- Шапка -->
+        <div class="skeleton header-skeleton"></div>
+
+        <!-- Stepper -->
+        <div class="skeleton stepper-skeleton"></div>
+
+        <div class="loading-wrapper">
+            <div *ngFor="let _ of [1,2,3,5,6,7,8]" class="form-card-one skeleton-card">
+                <div class="info-form-card-one">
+                    <div class="skeleton skeleton-text-short"></div>
+                </div>
+                <div class="buttons-form-one">
+                    <div *ngFor="let _btn of [1,2,3,4,5]" class="skeleton skeleton-button"></div>
+                </div>
+            </div>
+
+            <div *ngIf="usedFormTwo.length > 0">
+                <div *ngFor="let _ of [1,2,3,5,6,7,8]" class="form-card-two skeleton-card">
+                    <div class="info-form-card-one">
+                        <div class="skeleton skeleton-text-short"></div>
+                    </div>
+                    <div class="buttons-form-two">
+                        <div *ngFor="let _btn of [1,2,3,4,5]" class="skeleton skeleton-radio-button"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопки -->
+            <div class="footer-buttons">
+                <div class="skeleton skeleton-button-small"></div>
+                <div class="buttons-end">
+                    <div class="skeleton skeleton-button"></div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

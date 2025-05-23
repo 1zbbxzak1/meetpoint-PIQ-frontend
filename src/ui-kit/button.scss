@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     gap: 4px;
+    padding: 10px 20px;
 
     border-radius: 8px;
     border: 0;
@@ -86,6 +87,26 @@
     background: $button-neutral-bg-hover;
 }
 
+.neutral-button-l-outline-default {
+    display: inline-flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    color: $text-black;
+
+    border-radius: 8px;
+    border: 1.2px solid $button-neutral-stroke;
+    background: $bg-white;
+
+    cursor: pointer;
+}
+
+.neutral-button-l-outline-default:hover {
+    background: $button-neutral-bg-hover;
+}
+
 .neutral-button-s-no-outline-default {
     display: inline-flex;
     padding: 6px 14px;
@@ -122,4 +143,63 @@
 
 .delete-button:hover {
     background: #CC2626;
+}
+
+.neutral-button-minor-form {
+    display: flex;
+    height: 48px;
+    padding: 8px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+
+    color: $text-black;
+
+    border-radius: 8px;
+    border: none;
+    background: $button-neutral-bg-hover;
+
+    cursor: pointer;
+}
+
+.neutral-button-minor-form:hover {
+    background: #EBEBEB;
+}
+
+.neutral-button-minor-form.active {
+    background: $main-orange-primary;
+}
+
+.radiobutton-form-off {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    aspect-ratio: 1/1;
+
+    background: $bg-white;
+    border-radius: 50%;
+    border: 1px solid $button-neutral-stroke;
+
+    cursor: pointer;
+
+    &:hover {
+        border-color: $button-accent-outline-stroke-default;
+    }
+
+    &.selected {
+        border-color: $button-accent-outline-stroke-default;
+    }
+}
+
+.radiobutton-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: $button-accent-outline-stroke-default;
 }

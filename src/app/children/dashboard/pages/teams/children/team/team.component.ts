@@ -151,6 +151,10 @@ export class TeamComponent implements OnInit {
         this.selectedAssessmentId = this.selectedAssessmentId === assessmentId ? '' : assessmentId;
     }
 
+    protected navigateToAssessment(assessmentId: string): void {
+        this._router.navigate(['teams', 'team', this.teamId, 'assessment', assessmentId]);
+    }
+
     private getCurrentEvents(): void {
         this._eventsManagerService.getCurrent().pipe(
             takeUntilDestroyed(this._destroyRef)
