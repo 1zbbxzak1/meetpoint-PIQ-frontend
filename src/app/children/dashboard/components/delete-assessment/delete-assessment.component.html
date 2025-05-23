@@ -1,0 +1,24 @@
+<div *ngIf="isVisible" class="modal-overlay">
+    <div (click)="$event.stopPropagation()" class="modal-container">
+        <div class="modal-content">
+            <button (click)="closeModal()" class="x-close">
+                <img alt="Закрыть" height="24" ngSrc="assets/x-close.svg" width="24">
+            </button>
+
+            <div class="modal-header">
+                <p class="headline-5">
+                    Удалить оценивание?
+                </p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button (click)="closeModal()" class="neutral-button-m-outline-default button-m-medium">
+                Отмена
+            </button>
+            <button (click)="confirm()" class="delete-button button-m-medium">
+                Удалить
+            </button>
+        </div>
+    </div>
+</div>

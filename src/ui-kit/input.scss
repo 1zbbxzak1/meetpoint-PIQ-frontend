@@ -26,7 +26,7 @@
     border: 1.2px solid $input-stroke-text-error;
 }
 
-.dropdown-input-m-multi {
+.dropdown-input-m {
     display: flex;
     padding: 8px 16px;
     align-items: center;
@@ -39,16 +39,16 @@
     outline: none;
 }
 
-.dropdown-input-m-multi:hover {
+.dropdown-input-m:hover {
     border: 1.2px solid $input-stroke-hover-focused;
 }
 
-.dropdown-input-m-multi:active {
+.dropdown-input-m:active {
     outline: none;
     border: 1.2px solid $input-stroke-default-active;
 }
 
-.dropdown-menu-multi {
+.dropdown-menu {
     position: absolute;
     right: 34px;
 
@@ -65,7 +65,7 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.dropdown-menu-multi button {
+.dropdown-menu button {
     background: none;
 
     display: flex;
@@ -84,11 +84,11 @@
     outline: none;
 }
 
-.dropdown-menu-multi button:hover {
+.dropdown-menu button:hover {
     background: $button-accent-outline-bg-hover;
 }
 
-.dropdown-menu-multi button:active {
+.dropdown-menu button:active {
     outline: none;
     background: $bg-white;
 }
@@ -114,8 +114,25 @@
     cursor: pointer;
 }
 
-.custom-checkbox-mini.disabled {
+.custom-checkbox-mini.disabled,
+.custom-checkbox-mini.disabled:hover {
     cursor: not-allowed;
+    border-radius: 3px;
+    background: $button-disabled-bg-default;
+    border: 1.2px solid $input-disabled-stroke;
+}
+
+.custom-checkbox-mini.disabled:after {
+    content: "";
+    position: absolute;
+
+    background-image: url("/assets/check-disabled.svg");
+    background-repeat: no-repeat;
+
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+    filter: grayscale(100%);
 }
 
 .custom-checkbox-mini::after {
@@ -147,17 +164,6 @@
     border-radius: 3px;
     background: $bg-white;
     border: 1.2px solid $input-stroke-hover-focused;
-}
-
-.custom-checkbox-mini:disabled {
-    border-radius: 3px;
-    background: $button-disabled-bg-default;
-    border: 1.2px solid $input-disabled-stroke;
-    cursor: not-allowed;
-}
-
-.custom-checkbox-mini:disabled::after {
-    filter: grayscale(100%);
 }
 
 .custom-checkbox-mini:hover {

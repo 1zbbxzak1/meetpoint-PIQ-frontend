@@ -18,4 +18,13 @@ export class AssessmentsManagerService {
             }),
         );
     }
+
+    public deleteAssessmentById(id: string): Observable<void> {
+        return this._assessmentsService.deleteAssessmentById(id).pipe(
+            catchError(err => {
+                this._errorHandler.handleError(err);
+                return NEVER;
+            }),
+        );
+    }
 }

@@ -14,4 +14,8 @@ export class AssessmentsService {
     public editAssessmentById(id: string, assessment: IEditAssessmentRequest): Observable<AssessmentDto> {
         return this._http.put<AssessmentDto>(`${this._apiUrl}/${id}`, assessment);
     }
+
+    public deleteAssessmentById(id: string): Observable<void> {
+        return this._http.delete<void>(`${this._apiUrl}/${id}`);
+    }
 }

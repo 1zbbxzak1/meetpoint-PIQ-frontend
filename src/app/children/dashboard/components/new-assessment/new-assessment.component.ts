@@ -112,7 +112,7 @@ export class NewAssessmentComponent implements OnInit, OnChanges {
             if (!this.editingAssessment) {
                 return;
             }
-            
+
             this.formAssessment.patchValue({
                 name: this.editingAssessment.name,
                 dateOpen: this.editingAssessment.startDate,
@@ -136,6 +136,10 @@ export class NewAssessmentComponent implements OnInit, OnChanges {
 
             this.syncAssessmentTypesFromSelection();
             this.updateAssessmentActiveStatus();
+        } else {
+            this.formAssessment.reset();
+            this.selectedTeams = [];
+            this.selectedAssessmentTypes = [];
         }
     }
 

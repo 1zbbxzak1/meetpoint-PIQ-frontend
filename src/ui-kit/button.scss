@@ -103,3 +103,23 @@
 .neutral-button-s-no-outline-default:hover {
     background: $button-neutral-bg-hover;
 }
+
+.delete-button {
+    display: inline-flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    color: $text-white;
+
+    border-radius: 8px;
+    border: none;
+    background: $input-stroke-text-error;
+
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background: #CC2626;
+}

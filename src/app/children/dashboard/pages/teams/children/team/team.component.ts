@@ -1,13 +1,14 @@
-import {ChangeDetectorRef, Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, DestroyRef, HostListener, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HeaderComponent} from '../../../../components/header/header.component';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {EventsManagerService} from '../../../../../../data/services/events/events.manager.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {GetEventHierarchyResponse} from '../../../../../../data/models/events/IGetEventHierarchy.response';
 import {NewAssessmentComponent} from '../../../../components/new-assessment/new-assessment.component';
 import {TeamsManagerService} from '../../../../../../data/services/teams/teams.manager.service';
 import {AssessmentDto} from '../../../../../../data/dto/AssessmentDto';
+import {DeleteAssessmentComponent} from '../../../../components/delete-assessment/delete-assessment.component';
 
 @Component({
     selector: 'app-team',
@@ -16,6 +17,8 @@ import {AssessmentDto} from '../../../../../../data/dto/AssessmentDto';
         NgIf,
         NgForOf,
         NewAssessmentComponent,
+        NgOptimizedImage,
+        DeleteAssessmentComponent,
 
     ],
     templateUrl: './team.component.html',
@@ -24,14 +27,18 @@ import {AssessmentDto} from '../../../../../../data/dto/AssessmentDto';
 export class TeamComponent implements OnInit {
     protected teamData: any;
     protected breadcrumbs: string[] = [];
+    protected foundTeam: string = "";
     protected modalStates = {
         create: false,
         edit: false,
+        delete: false,
     }
     protected selectedAssessmentForEdit: AssessmentDto | null = null;
 
     protected assessments: AssessmentDto[] = [];
     protected teamId: string = '';
+    protected selectedAssessmentId: string = '';
+
     private _events: any;
     private readonly _route: ActivatedRoute = inject(ActivatedRoute);
     private readonly _router: Router = inject(Router);
@@ -90,6 +97,11 @@ export class TeamComponent implements OnInit {
         this.toggleModal('edit', true);
     }
 
+    protected openDeleteModal(assessmentId: string): void {
+        this.selectedAssessmentId = assessmentId;
+        this.toggleModal('delete', true);
+    }
+
     protected toggleModal(type: keyof typeof this.modalStates, state: boolean): void {
         this.modalStates[type] = state;
 
@@ -121,6 +133,22 @@ export class TeamComponent implements OnInit {
         this.loadAssessments();
         this.toggleModal('edit', false);
         this.toggleModal('create', false);
+        this.toggleModal('delete', false);
+    }
+
+    @HostListener('document:click', ['$event'])
+    protected closeDropdown(event: MouseEvent): void {
+        const clickedElement: HTMLElement = event.target as HTMLElement;
+        const isDropdown: Element | null = clickedElement.closest('.dropdown-menu');
+        const isButton: Element | null = clickedElement.closest('.second-button');
+
+        if (!isDropdown && !isButton) {
+            this.selectedAssessmentId = '';
+        }
+    }
+
+    protected toggleDropdown(assessmentId: string): void {
+        this.selectedAssessmentId = this.selectedAssessmentId === assessmentId ? '' : assessmentId;
     }
 
     private getCurrentEvents(): void {
@@ -146,9 +174,11 @@ export class TeamComponent implements OnInit {
                     this.breadcrumbs = [
                         this._events.event.name,
                         direction.name,
-                        project.name,
-                        foundTeam.name
+                        project.name
                     ];
+
+                    this.foundTeam = foundTeam.name;
+
                     return;
                 }
             }

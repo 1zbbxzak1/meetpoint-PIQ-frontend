@@ -15,13 +15,15 @@
         </button>
     </div>
 
+    <p class="group-title headline-5">{{ foundTeam }}</p>
+
     <div class="subgroup-assessments">
         <div class="subgroup-assessment">
             <div class="subgroup-assessment-cards">
                 <p class="subgroup-title body-m-regular">Активные<br/>оценивания</p>
 
                 <div class="card-list-active">
-                    <div *ngFor="let assessment of activeAssessments" class="card-active">
+                    <div *ngFor="let assessment of activeAssessments" class="card">
                         <div class="card-titles">
                             <p class="card-title body-l-bold">{{ assessment.name }}</p>
 
@@ -31,11 +33,29 @@
                         </div>
 
                         <div class="card-assessment-active">
-                            <button (click)="openEditModal(assessment)"
-                                    class="neutral-button-s-no-outline-default button-s-medium">
-                                Редактировать
-                            </button>
                             <button class="accent-button-s-primary-default button-s-medium">Оценить</button>
+
+                            <div>
+                                <button (click)="toggleDropdown(assessment.id); $event.stopPropagation()"
+                                        class="neutral-button-s-no-outline-default body-m-regular">
+                                    <img alt="Дополнительно" height="16" ngSrc="assets/dots-horizontal.svg" width="16">
+                                </button>
+
+                                <div *ngIf="selectedAssessmentId == assessment.id"
+                                     class="dropdown-menu second-button button-s-medium">
+                                    <button (click)="openEditModal(assessment)"
+                                            class="neutral-button-s-no-outline-default">
+                                        <img height="20" ngSrc="assets/edit.svg" width="20">
+                                        <p class="body-m-regular">Редактировать</p>
+                                    </button>
+
+                                    <button (click)="openDeleteModal(selectedAssessmentId)"
+                                            class="neutral-button-s-no-outline-default">
+                                        <img height="20" ngSrc="assets/trash.svg" width="20">
+                                        <p class="body-m-regular">Удалить</p>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,10 +74,27 @@
                         </div>
 
                         <div class="card-assessment-future">
-                            <button (click)="openEditModal(assessment)"
-                                    class="neutral-button-s-no-outline-default button-s-medium">
-                                Редактировать
-                            </button>
+                            <div>
+                                <button (click)="toggleDropdown(assessment.id); $event.stopPropagation()"
+                                        class="neutral-button-s-no-outline-default body-m-regular">
+                                    <img alt="Дополнительно" height="16" ngSrc="assets/dots-horizontal.svg" width="16">
+                                </button>
+
+                                <div *ngIf="selectedAssessmentId == assessment.id"
+                                     class="dropdown-menu second-button button-s-medium">
+                                    <button (click)="openEditModal(assessment)"
+                                            class="neutral-button-s-no-outline-default">
+                                        <img height="20" ngSrc="assets/edit.svg" width="20">
+                                        <p class="body-m-regular">Редактировать</p>
+                                    </button>
+
+                                    <button (click)="openDeleteModal(selectedAssessmentId)"
+                                            class="neutral-button-s-no-outline-default">
+                                        <img height="20" ngSrc="assets/trash.svg" width="20">
+                                        <p class="body-m-regular">Удалить</p>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -103,3 +140,9 @@
     [teamId]="this.teamId"
     [title]="'Создание нового оценивания'">
 </app-new-assessment>
+
+<app-delete-assessment
+    (close)="toggleModal('delete', false); handleAssessmentSaved()"
+    [assessmentId]="this.selectedAssessmentId"
+    [isVisible]="modalStates.delete">
+</app-delete-assessment>

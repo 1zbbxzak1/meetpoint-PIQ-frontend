@@ -55,7 +55,7 @@
                             (click)="toggleDropdown()"
                             [ngClass]="{ 'input-active': isDropdownOpen }"
                             [value]="getSelectedTeamNames()"
-                            class="dropdown-input-m-multi body-m-regular"
+                            class="dropdown-input-m body-m-regular"
                             placeholder="Выберите команды"
                             readonly
                             type="text"
@@ -68,7 +68,7 @@
                     </div>
 
                     <!-- Выпадающее меню -->
-                    <div *ngIf="isDropdownOpen" class="dropdown-menu-multi">
+                    <div *ngIf="isDropdownOpen" class="dropdown-menu">
                         <button *ngFor="let team of Object.values(teamsArr)" class="dropdown body-m-regular">
                             <input (change)="toggleTeam(team.name)"
                                    [checked]="isTeamSelected(team.name)"
