@@ -65,7 +65,17 @@ export class AuthComponent implements OnInit {
             ).subscribe({
                 next: (): void => {
                     this.loginError = null;
-                    this._router.navigate(['teams']);
+                    const roles: string[] = this._authManagerService.getUserRoles() || [];
+                    
+                    if (roles.includes('Admin')) {
+                        this._router.navigate(['teams']);
+                    } else if (roles.includes('Tutor')) {
+                        this._router.navigate(['teams']);
+                    } else if (roles.includes('Member')) {
+                        this._router.navigate(['student-team']);
+                    } else {
+                        this._router.navigate(['/']);
+                    }
                 },
                 error: (err): void => {
                     this.loginError = err.message;
