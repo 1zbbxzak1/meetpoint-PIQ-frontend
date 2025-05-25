@@ -70,7 +70,7 @@ export class TeamsComponent implements OnInit {
 
             this.timeout(500);
 
-            this._cdr.markForCheck();
+            this._cdr.detectChanges();
         })
     }
 
