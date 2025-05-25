@@ -1,0 +1,84 @@
+<app-student-header/>
+
+<app-loading [isLoading]="isLoading"></app-loading>
+
+<div *ngIf="!isLoading" class="team-container">
+    <div class="header-team">
+        <div *ngIf="breadcrumbs.length" class="breadcrumbs">
+            <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+                <p class="body-m-bold">{{ crumb }}</p>
+                <p *ngIf="!last" class="body-m-bold">/</p>
+            </ng-container>
+        </div>
+    </div>
+
+    <p class="group-title headline-5">{{ foundTeam }}</p>
+
+    <div class="subgroup-assessments">
+        <div class="subgroup-assessment">
+            <div class="subgroup-assessment-cards">
+                <p class="subgroup-title body-m-regular">Активные<br/>оценивания</p>
+
+                <div class="card-list-active">
+                    <div *ngFor="let assessment of activeAssessments" class="card">
+                        <div class="card-titles">
+                            <p class="card-title body-l-bold">{{ assessment.name }}</p>
+
+                            <p class="card-date body-m-regular">
+                                {{ formatDate(assessment.startDate) }} - {{ formatDate(assessment.endDate) }}
+                            </p>
+                        </div>
+
+                        <div class="card-assessment-active">
+                            <div class="body-s-regular not-assessed-title">
+                                {{ getNotAssessedTitle(assessment) }}
+                            </div>
+
+                            <button (click)="navigateToAssessment(assessment.id)"
+                                    class="accent-button-s-primary-default button-s-medium">
+                                {{ getAssessmentActionTitle(assessment) }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subgroup-assessment-cards">
+                <p class="subgroup-title body-m-regular">Предстоящие<br/>оценивания</p>
+                <div class="card-list-future">
+                    <div *ngFor="let assessment of futureAssessments" class="card">
+                        <div class="card-titles">
+                            <p class="card-title body-l-bold">{{ assessment.name }}</p>
+
+                            <p class="card-date body-m-regular">
+                                {{ formatDate(assessment.startDate) }} - {{ formatDate(assessment.endDate) }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="subgroup-assessment-cards">
+                <p class="subgroup-title body-m-regular">Пройденные<br/>оценивания</p>
+                <div class="card-list-complete">
+                    <div *ngFor="let assessment of completeAssessments" class="card">
+                        <div class="card-titles">
+                            <p class="card-title body-l-bold">{{ assessment.name }}</p>
+
+                            <p class="card-date body-m-regular">
+                                {{ formatDate(assessment.startDate) }} - {{ formatDate(assessment.endDate) }}
+                            </p>
+                        </div>
+
+                        <div class="card-assessment-not-complete">
+                            <button class="neutral-button-s-no-outline-default button-s-medium">
+                                Посмотреть результаты
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
