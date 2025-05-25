@@ -108,6 +108,10 @@ export class TeamComponent implements OnInit {
     protected toggleModal(type: keyof typeof this.modalStates, state: boolean): void {
         this.modalStates[type] = state;
 
+        if (!state) {
+            this.selectedAssessmentId = '';
+        }
+
         if (state) {
             document.body.style.overflow = 'hidden';
         } else {
