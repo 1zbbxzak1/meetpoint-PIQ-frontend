@@ -61,6 +61,10 @@
     @include headline($font-medium, $font-button-m-medium-size, $font-button-m-medium-line-height);
 }
 
+.button-s-regular {
+    @include headline($font-medium, $font-body-l-regular-size, $font-button-s-medium-line-height);
+}
+
 .button-s-medium {
     @include headline($font-medium, $font-button-s-medium-size, $font-button-s-medium-line-height);
 }
