@@ -1,6 +1,8 @@
 <app-header/>
 
-<div class="team-container">
+<app-loading [isLoading]="isLoading"></app-loading>
+
+<div *ngIf="!isLoading" class="team-container">
     <div class="header-team">
         <div *ngIf="breadcrumbs.length" class="breadcrumbs">
             <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
@@ -33,9 +35,13 @@
                         </div>
 
                         <div class="card-assessment-active">
+                            <div class="body-s-regular not-assessed-title">
+                                {{ getNotAssessedTitle(assessment) }}
+                            </div>
+
                             <button (click)="navigateToAssessment(assessment.id)"
                                     class="accent-button-s-primary-default button-s-medium">
-                                Оценить
+                                {{ getAssessmentActionTitle(assessment) }}
                             </button>
 
                             <div>

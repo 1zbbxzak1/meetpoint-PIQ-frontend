@@ -15,6 +15,8 @@ import {TeamsService} from './data/services/teams/teams.service';
 import {TeamsManagerService} from './data/services/teams/teams.manager.service';
 import {UserScoresService} from './data/services/user-scores/user-scores.service';
 import {UserScoresManagerService} from './data/services/user-scores/user-scores.manager.service';
+import {TemplatesCriteriaService} from './data/services/templates/templates-criteria.service';
+import {TemplatesCriteriaManagerService} from './data/services/templates/templates-criteria.manager.service';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -40,6 +42,9 @@ export const appConfig: ApplicationConfig = {
 
         TeamsService,
         TeamsManagerService,
+
+        TemplatesCriteriaService,
+        TemplatesCriteriaManagerService,
 
         UserScoresService,
         UserScoresManagerService,

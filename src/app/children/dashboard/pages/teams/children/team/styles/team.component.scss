@@ -147,6 +147,15 @@
     gap: 8px;
 }
 
+.not-assessed-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-grey-secondary;
+
+    margin-right: 4px;
+}
+
 .neutral-button-s-no-outline-default {
     display: flex;
     padding: 8px;

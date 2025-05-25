@@ -9,6 +9,7 @@ import {NewAssessmentComponent} from '../../../../components/new-assessment/new-
 import {TeamsManagerService} from '../../../../../../data/services/teams/teams.manager.service';
 import {AssessmentDto} from '../../../../../../data/dto/AssessmentDto';
 import {DeleteAssessmentComponent} from '../../../../components/delete-assessment/delete-assessment.component';
+import {LoadingComponent} from '../../../../components/loading/loading.component';
 
 @Component({
     selector: 'app-team',
@@ -19,12 +20,14 @@ import {DeleteAssessmentComponent} from '../../../../components/delete-assessmen
         NewAssessmentComponent,
         NgOptimizedImage,
         DeleteAssessmentComponent,
+        LoadingComponent,
 
     ],
     templateUrl: './team.component.html',
     styleUrl: './styles/team.component.scss'
 })
 export class TeamComponent implements OnInit {
+    public isLoading: boolean = true;
     protected teamData: any;
     protected breadcrumbs: string[] = [];
     protected foundTeam: string = "";
@@ -151,6 +154,30 @@ export class TeamComponent implements OnInit {
         this.selectedAssessmentId = this.selectedAssessmentId === assessmentId ? '' : assessmentId;
     }
 
+    protected getAssessmentActionTitle(assessment: AssessmentDto): string {
+        const {assessUsersCount, notAssessedCount} = assessment;
+
+        if (notAssessedCount === 0) {
+            return 'Изменить оценку';
+        }
+
+        if (notAssessedCount < assessUsersCount) {
+            return 'Продолжить оценивание';
+        }
+
+        return 'Оценить';
+    }
+
+    protected getNotAssessedTitle(assessment: AssessmentDto): string {
+        const {assessUsersCount, notAssessedCount} = assessment;
+
+        if (notAssessedCount === 0) {
+            return 'Все оценки выставлены';
+        }
+
+        return 'Осталось оценить: ' + notAssessedCount + '/' + assessUsersCount;
+    }
+
     protected navigateToAssessment(assessmentId: string): void {
         this._router.navigate(['teams', 'team', this.teamId, 'assessment', assessmentId]);
     }
@@ -194,7 +221,17 @@ export class TeamComponent implements OnInit {
             takeUntilDestroyed(this._destroyRef),
         ).subscribe((assessments: AssessmentDto[]): void => {
             this.assessments = assessments;
+
+            this.timeout(500);
+
             this._cdr.detectChanges();
         });
+    }
+
+    private timeout(time: number): void {
+        setTimeout((): void => {
+            this.isLoading = false;
+            this._cdr.detectChanges();
+        }, time);
     }
 }

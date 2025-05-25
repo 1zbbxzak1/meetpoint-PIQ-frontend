@@ -1,6 +1,8 @@
 <app-header/>
 
-<div class="teams-container">
+<app-loading [isLoading]="isLoading"></app-loading>
+
+<div *ngIf="!isLoading" class="teams-container">
     <div class="header-teams">
         <p class="event body-m-bold">{{ events?.event?.name }}</p>
         <button (click)="toggleModal('open', true)"

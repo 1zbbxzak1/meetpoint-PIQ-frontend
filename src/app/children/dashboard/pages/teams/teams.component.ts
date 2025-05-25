@@ -11,6 +11,7 @@ import {AssessmentDto} from '../../../../data/dto/AssessmentDto';
 import {TeamDto} from '../../../../data/dto/TeamDto';
 import {DirectionDto} from '../../../../data/dto/DirectionDto';
 import {ProjectDto} from '../../../../data/dto/ProjectDto';
+import {LoadingComponent} from '../../components/loading/loading.component';
 
 @Component({
     selector: 'app-teams',
@@ -19,12 +20,14 @@ import {ProjectDto} from '../../../../data/dto/ProjectDto';
         NgForOf,
         NgIf,
         NgClass,
-        NewAssessmentComponent
+        NewAssessmentComponent,
+        LoadingComponent
     ],
     templateUrl: './teams.component.html',
     styleUrl: './styles/teams.component.scss'
 })
 export class TeamsComponent implements OnInit {
+    public isLoading: boolean = true;
     protected events?: GetEventHierarchyResponse;
 
     protected modalStates = {
@@ -65,6 +68,8 @@ export class TeamsComponent implements OnInit {
 
             this.initializeActiveAssessments();
 
+            this.timeout(500);
+
             this._cdr.markForCheck();
         })
     }
@@ -92,5 +97,12 @@ export class TeamsComponent implements OnInit {
             const endDate = new Date(assessment.endDate);
             return currentDate >= startDate && currentDate <= endDate;
         }) || null;
+    }
+
+    private timeout(time: number): void {
+        setTimeout((): void => {
+            this.isLoading = false;
+            this._cdr.detectChanges();
+        }, time);
     }
 }

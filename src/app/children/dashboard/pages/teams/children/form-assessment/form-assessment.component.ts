@@ -8,6 +8,8 @@ import {UserDto} from '../../../../../../data/dto/UserDto';
 import {FormShortDto} from '../../../../../../data/dto/FormShortDto';
 import {AssessChoiceDto} from '../../../../../../data/dto/AssessChoiceDto';
 import {forkJoin} from 'rxjs';
+import {AuthManagerService} from '../../../../../../data/services/auth/auth.manager.service';
+import {jwtDecode} from 'jwt-decode';
 
 
 interface AssessUserStep {
@@ -49,6 +51,7 @@ export class FormAssessmentComponent implements OnInit {
     private readonly _router: Router = inject(Router);
     private readonly _destroyRef: DestroyRef = inject(DestroyRef);
     private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+    private readonly _authManager: AuthManagerService = inject(AuthManagerService);
     private readonly _assessmentsManagerService: AssessmentsManagerService = inject(AssessmentsManagerService);
 
     protected get currentUserId(): string {
@@ -132,7 +135,14 @@ export class FormAssessmentComponent implements OnInit {
     }
 
     protected navigateBackToTeam(): void {
-        this._router.navigate(['teams/team', this.teamId]);
+        const role = this.getUserRole();
+        if (role === 'Admin' || role === 'Tutor') {
+            this._router.navigate(['teams/team', this.teamId]);
+        } else if (role === 'Member') {
+            this._router.navigate(['student-team']);
+        } else {
+            this._router.navigate(['/']);
+        }
     }
 
     private initializeSteps() {
@@ -167,39 +177,6 @@ export class FormAssessmentComponent implements OnInit {
                 };
             });
         }
-    }
-
-    private getAssessUsers(): void {
-        this._assessmentsManagerService.getAssessUsers(this.assessmentId).pipe(
-            takeUntilDestroyed(this._destroyRef)
-        ).subscribe((assessUsers: AssessUserDto[]) => {
-            this.assessUsers = assessUsers;
-
-            assessUsers.forEach(user => {
-                if (user.assessed) {
-                    this.loadUserChoices(user.user.id);
-                }
-            });
-
-            if (this.assessUsers.length > 0) {
-                this.initializeSteps();
-            }
-
-            this._cdr.detectChanges();
-        });
-    }
-
-    private getUsedForms(): void {
-        this._assessmentsManagerService.getUsedForms(this.assessmentId).pipe(
-            takeUntilDestroyed(this._destroyRef)
-        ).subscribe((usedForms: FormShortDto[]) => {
-            this.usedForms = usedForms;
-
-            this.usedFormOne = this.usedForms.filter((f: FormShortDto): boolean => f.type === 0);
-            this.usedFormTwo = this.usedForms.filter((f: FormShortDto): boolean => f.type === 1);
-
-            this._cdr.detectChanges();
-        });
     }
 
     private loadUserChoices(userId: string): void {
@@ -249,5 +226,17 @@ export class FormAssessmentComponent implements OnInit {
             this.isLoading = false;
             this._cdr.detectChanges();
         });
+    }
+
+    private getUserRole(): string | null {
+        const token = this._authManager.getAccessToken();
+        if (!token) return null;
+
+        try {
+            const decoded: any = jwtDecode(token);
+            return decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
+        } catch {
+            return null;
+        }
     }
 }
