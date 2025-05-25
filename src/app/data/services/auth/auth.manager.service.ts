@@ -38,7 +38,9 @@ export class AuthManagerService {
 
         if (token) {
             const decoded: any = jwtDecode(token);
-            return decoded?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
+            const rawRoles = decoded?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+            if (!rawRoles) return null;
+            return Array.isArray(rawRoles) ? rawRoles : [rawRoles];
         }
 
         return null;

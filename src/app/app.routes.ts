@@ -6,26 +6,35 @@ import {TeamComponent} from './children/dashboard/pages/teams/children/team/team
 import {
     FormAssessmentComponent
 } from './children/dashboard/pages/teams/children/form-assessment/form-assessment.component';
+import {AdminTutorGuard} from './data/guard/admin.tutor.guard';
+import {RedirectAuthGuard} from './data/guard/redirect-auth.guard';
+import {MemberGuard} from './data/guard/member.guard';
 
 export const routes: Routes = [
     {
         path: '',
         component: AuthComponent,
+        canActivate: [RedirectAuthGuard],
     },
     {
         path: 'teams',
         component: TeamsComponent,
+        canActivate: [AdminTutorGuard],
     },
     {
         path: 'teams/team/:id',
         component: TeamComponent,
+        canActivate: [AdminTutorGuard],
     },
     {
         path: 'teams/team/:id/assessment/:assessmentId',
         component: FormAssessmentComponent,
+        canActivate: [AdminTutorGuard],
     },
     {
         path: 'results',
         component: ResultsComponent,
+        canActivate: [AdminTutorGuard],
+    },
     },
 ];
