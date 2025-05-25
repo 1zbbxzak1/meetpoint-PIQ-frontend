@@ -1,0 +1,101 @@
+<div *ngIf="isModalOpen" class="modal-overlay">
+    <div class="modal">
+        <div>
+            <div class="modal-header">
+                <button (click)="closeModal()" class="modal-close">
+                    <img alt="Закрыть" height="24" ngSrc="assets/x-close.svg" width="24">
+                </button>
+
+                <p class="headline-5">Описание критериев</p>
+            </div>
+            <div class="modal-body-1">
+                <ng-container>
+                    <div class="results-table-modal">
+                        <div class="row-modal header-modal">
+                            <div class="cell-1-modal">Критерий</div>
+                            <div class="cell-2-modal">Описание</div>
+                        </div>
+
+                        <ng-container *ngIf="activeTab === 'circle' || activeTab === 'behavior'; else allCriteria">
+                            <div *ngFor="let criteria of activeTab === 'circle' ? circleCriteria : behaviorCriteria"
+                                 class="row-modal">
+                                <div class="cell-1-modal body-m-bold name-criteria">{{ criteria.name }}</div>
+                                <div class="cell-2-modal body-m-regular">{{ criteria.description }}</div>
+                            </div>
+                        </ng-container>
+
+                        <ng-template #allCriteria>
+                            <div *ngFor="let criteria of circleCriteria.concat(behaviorCriteria)"
+                                 class="row-modal">
+                                <div class="cell-1-modal body-m-bold name-criteria">{{ criteria.name }}</div>
+                                <div class="cell-2-modal body-m-regular">{{ criteria.description }}</div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div>
+            <div class="modal-header">
+                <button (click)="closeModal()" class="modal-close">
+                    <img alt="Закрыть" height="24" ngSrc="assets/x-close.svg" width="24">
+                </button>
+
+                <p class="headline-5">Значение шкалы</p>
+            </div>
+            <div class="modal-body-2">
+                <ng-container>
+                    <div class="results-table-modal">
+                        <div class="row-modal header-modal">
+                            <div class="cell-3-modal">Значение</div>
+                            <div class="cell-4-modal">Описание</div>
+                        </div>
+                        <div class="row-modal">
+                            <div class="cell-3-modal">
+                                <p class="score-cell score-low score-width">-1</p>
+                            </div>
+                            <div class="cell-4-modal body-m-regular">
+                                Отсутствует или негативное проявление
+                            </div>
+                        </div>
+                        <div class="row-modal">
+                            <div class="cell-3-modal">
+                                <p class="score-cell score-medium score-width">0</p>
+                            </div>
+                            <div class="cell-4-modal body-m-regular">
+                                Не выявлен или невозможно оценить
+                            </div>
+                        </div>
+                        <div class="row-modal">
+                            <div class="cell-3-modal">
+                                <p class="score-cell score-high score-width">1</p>
+                            </div>
+                            <div class="cell-4-modal body-m-regular">
+                                Качество выражено слабо, требует специального развития; проявлена лень
+                            </div>
+                        </div>
+                        <div class="row-modal">
+                            <div class="cell-3-modal">
+                                <p class="score-cell score-very-high score-width">2</p>
+                            </div>
+                            <div class="cell-4-modal body-m-regular">
+                                Проявляется удовлетворительно, но нестабильно; видно невооружённым глазом, при
+                                фокусировке быстро разовьёт его
+                            </div>
+                        </div>
+                        <div class="row-modal">
+                            <div class="cell-3-modal">
+                                <p class="score-cell score-very-high score-width">3</p>
+                            </div>
+                            <div class="cell-4-modal body-m-regular">
+                                Качество выражено на хорошем уровне, регулярно проявляется и помогает стажёру выполнять
+                                задачи
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
