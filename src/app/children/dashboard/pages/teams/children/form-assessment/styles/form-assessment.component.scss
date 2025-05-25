@@ -262,11 +262,16 @@
     font-weight: 400;
     line-height: 24px;
 
-    .radiobutton-form-off:hover {
-        border-color: $button-accent-outline-stroke-default;
+    &:hover {
+        color: $button-accent-outline-stroke-default;
+        cursor: pointer;
 
-        + p {
-            color: $button-accent-outline-stroke-default;
+        .radiobutton-form-off {
+            border-color: $button-accent-outline-stroke-default;
+
+            + p {
+                color: $button-accent-outline-stroke-default;
+            }
         }
     }
 
