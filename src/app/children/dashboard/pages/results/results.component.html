@@ -1,1 +1,83 @@
 <app-header/>
+
+<app-loading [isLoading]="isLoading"></app-loading>
+
+<div *ngIf="!isLoading" class="results-container">
+    <div class="header-results">
+        <p class="headline-5">Средние оценки студентов</p>
+
+        <button (click)="openModal()" class="assessment-button minor-button-result">
+            Описание критериев и шкалы
+        </button>
+    </div>
+
+    <div class="tabs">
+        <div (click)="onSelectTab('circle')"
+             [class.active-tab]="activeTab === 'circle'">
+            Оценка 360
+        </div>
+        <div (click)="onSelectTab('behavior')"
+             [class.active-tab]="activeTab === 'behavior'">
+            Оценка поведения
+        </div>
+    </div>
+
+    <!-- ОЦЕНКА 360 -->
+    <div *ngIf="activeTab === 'circle'" class="results-table">
+        <div class="results-header row">
+            <div class="cell-1 row-1">№</div>
+            <div class="cell-2">Фамилия И.О.</div>
+            <div class="cell-3">Команда</div>
+            <div *ngFor="let criteria of circleCriteria" class="cell-4">{{ criteria.name }}</div>
+        </div>
+
+        <div *ngFor="let user of circleUsersScores; let i = index" class="results-row row">
+            <div class="cell-1 body-m-regular row-1">{{ i + 1 }}</div>
+            <div class="cell-2 body-m-regular">
+                <p (click)="navigateToUserScores(user.userId)" class="fullname">
+                    {{ getShortName(user.fullName) }}
+                </p>
+            </div>
+            <div class="cell-3 body-m-regular">{{ user.teamName }}</div>
+            <div *ngFor="let criteria of circleCriteria" class="cell-4 body-m-regular">
+                <div [ngClass]="getScoreClass(getScore(user, criteria.id))" class="score-cell">
+                    {{ getScore(user, criteria.id) ?? '—' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ОЦЕНКА ПОВЕДЕНИЯ -->
+    <div *ngIf="activeTab === 'behavior'" class="results-table">
+        <div class="results-header row">
+            <div class="cell-1 row-1">№</div>
+            <div class="cell-2">Фамилия И.О.</div>
+            <div class="cell-3">Команда</div>
+            <div *ngFor="let criteria of behaviorCriteria" class="cell-5">{{ criteria.name }}</div>
+        </div>
+
+        <div *ngFor="let user of behaviorUsersScores; let i = index" class="results-row row">
+            <div class="cell-1 body-m-regular row-1">{{ i + 1 }}</div>
+            <div class="cell-2 body-m-regular">
+                <p (click)="navigateToUserScores(user.userId)" class="fullname">
+                    {{ getShortName(user.fullName) }}
+                </p>
+            </div>
+            <div class="cell-3 body-m-regular">{{ user.teamName }}</div>
+            <div *ngFor="let criteria of behaviorCriteria" class="cell-5 body-m-regular">
+                <div [ngClass]="getScoreClass(getScore(user, criteria.id))" class="score-cell">
+                    {{ getScore(user, criteria.id) ?? '—' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<app-modal-results
+    (close)="closeModal()"
+    [activeTab]="activeTab"
+    [behaviorCriteria]="behaviorCriteria"
+    [circleCriteria]="circleCriteria"
+    [isModalOpen]="isModalOpen">
+</app-modal-results>

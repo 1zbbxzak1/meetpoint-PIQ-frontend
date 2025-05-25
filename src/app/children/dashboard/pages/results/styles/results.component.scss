@@ -1,0 +1,217 @@
+@use 'ui-kit/variables' as *;
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    max-width: 1200px;
+    margin: 0 auto 0;
+    padding: 104px 0 40px;
+
+    background: $bg-white;
+}
+
+.header-results {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+}
+
+.minor-button-result {
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    color: $text-black;
+    font-family: $font-medium;
+
+    display: flex;
+    padding: 6px 14px;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+
+    border-radius: 8px;
+    border: none;
+    background: $button-neutral-bg-hover;
+
+    cursor: pointer;
+}
+
+.minor-button-result:hover {
+    background: #EBEBEB;
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    align-self: flex-start;
+    gap: 12px;
+
+    border-bottom: 1px solid $stroke-light-gray;
+
+    margin-top: 26px;
+    margin-bottom: 24px;
+
+    cursor: pointer;
+
+    div {
+        display: inline-flex;
+        padding: 0 4px 8px 4px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        color: $text-grey-secondary;
+        border-bottom: 2px solid transparent;
+
+        font-family: $font-medium;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        text-align: center;
+    }
+
+    div:hover {
+        color: $text-black;
+    }
+
+    .active-tab {
+        display: inline-flex;
+        padding: 0 4px 8px 4px;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+
+        border-bottom: 2px solid $main-orange-primary;
+
+        color: $text-black;
+    }
+}
+
+.results-table {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-self: stretch;
+    width: 100%;
+
+    .row {
+        display: flex;
+
+        padding: 12px 20px;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+
+        border-bottom: 1px solid $stroke-light-gray;
+
+        &:first-child {
+            background-color: $bg-white;
+            color: $text-grey-secondary;
+            font-family: $font-bold;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 24px;
+
+            flex: 1 0 0;
+        }
+    }
+
+    .cell-1 {
+        width: 44px;
+        word-break: break-word;
+    }
+
+    .cell-2 {
+        width: 230px;
+        word-break: break-word;
+    }
+
+    .cell-3 {
+        width: 200px;
+        word-break: break-word;
+    }
+
+    .cell-4 {
+        width: 179px;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    .cell-5 {
+        width: 240px;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    .results-header {
+        display: flex;
+        padding: 12px 20px;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+
+        border-bottom: 1px solid #D6D6D6;
+    }
+}
+
+.score-cell {
+    display: flex;
+    width: 38px;
+    padding: 8px 11px;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    gap: 8px;
+
+    border-radius: 8px;
+    border: none;
+    margin: 0 auto;
+
+    &.no-data {
+        color: var(--Text-Grey-Secondary, #7B7B7B);
+    }
+
+    &.score-low {
+        background: #FE4C4C;
+    }
+
+    &.score-medium {
+        background: #FFA236;
+    }
+
+    &.score-high {
+        background: #F2BD33;
+    }
+
+    &.score-very-high {
+        background: #26AD50;
+    }
+
+    &.score-low,
+    &.score-medium,
+    &.score-high,
+    &.score-very-high {
+        color: var(--Text-White, #FFF);
+    }
+}
+
+.fullname {
+    display: inline-block;
+    border-bottom: 1px solid transparent;
+
+    cursor: pointer;
+}
+
+.fullname:hover {
+    border-bottom: 1px solid $text-black;
+}
