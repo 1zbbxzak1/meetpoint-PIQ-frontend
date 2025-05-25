@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {Observable} from 'rxjs';
 import {GetEventHierarchyResponse} from '../../models/events/IGetEventHierarchy.response';
@@ -12,8 +12,9 @@ export class EventsService {
     private readonly _http: HttpClient = inject(HttpClient);
     private readonly _apiUrl: string = `${environment.apiUrlPIQ}/events`;
 
-    public getCurrent(): Observable<GetEventHierarchyResponse> {
-        return this._http.get<GetEventHierarchyResponse>(`${this._apiUrl}/current`);
+    public getCurrent(onlyWhereTutor: boolean = true): Observable<GetEventHierarchyResponse> {
+        const params: HttpParams = new HttpParams().set('onlyWhereTutor', onlyWhereTutor.toString());
+        return this._http.get<GetEventHierarchyResponse>(`${this._apiUrl}/current`, {params});
     }
 
     public createAssessment(assessment: ICreateTeamsAssessmentRequest): Observable<AssessmentDto> {

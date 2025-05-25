@@ -11,8 +11,8 @@ export class EventsManagerService {
     private readonly _eventsService: EventsService = inject(EventsService);
     private readonly _errorHandler: ErrorHandler = inject(ErrorHandler);
 
-    public getCurrent(): Observable<GetEventHierarchyResponse> {
-        return this._eventsService.getCurrent().pipe(
+    public getCurrent(onlyWhereTutor: boolean = true): Observable<GetEventHierarchyResponse> {
+        return this._eventsService.getCurrent(onlyWhereTutor).pipe(
             catchError((err) => {
                 this._errorHandler.handleError(err);
                 return NEVER;

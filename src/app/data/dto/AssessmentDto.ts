@@ -5,4 +5,6 @@ export interface AssessmentDto {
     readonly endDate: string,
     readonly useCircleAssessment: boolean,
     readonly useBehaviorAssessment: boolean,
+    readonly assessUserCount: number,
+    readonly notAssessedCount: number,
 }

@@ -13,6 +13,8 @@ import {AssessmentsService} from './data/services/assessments/assessments.servic
 import {AssessmentsManagerService} from './data/services/assessments/assessments.manager.service';
 import {TeamsService} from './data/services/teams/teams.service';
 import {TeamsManagerService} from './data/services/teams/teams.manager.service';
+import {UserScoresService} from './data/services/user-scores/user-scores.service';
+import {UserScoresManagerService} from './data/services/user-scores/user-scores.manager.service';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -38,5 +40,8 @@ export const appConfig: ApplicationConfig = {
 
         TeamsService,
         TeamsManagerService,
+
+        UserScoresService,
+        UserScoresManagerService,
     ]
 };
