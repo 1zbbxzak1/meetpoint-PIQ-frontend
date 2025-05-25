@@ -4,6 +4,8 @@
 
 <div *ngIf="!isLoading" class="team-container">
     <div class="header-team">
+        <p class="group-title headline-5">{{ foundTeam }}</p>
+
         <div *ngIf="breadcrumbs.length" class="breadcrumbs">
             <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
                 <p class="body-m-bold">{{ crumb }}</p>
@@ -11,8 +13,6 @@
             </ng-container>
         </div>
     </div>
-
-    <p class="group-title headline-5">{{ foundTeam }}</p>
 
     <div class="subgroup-assessments">
         <div class="subgroup-assessment">
