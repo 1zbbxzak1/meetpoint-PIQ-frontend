@@ -1,0 +1,22 @@
+<div class="header">
+    <div class="header-container">
+        <div class="navigation">
+            <button [class.active]="statesHeader['isTeams']"
+                    class="nav-button button-l-medium"
+                    routerLink="/student-team"
+                    routerLinkActive>
+                Оценивания
+            </button>
+            <button (click)="redirectToResults()"
+                    [class.active]="statesHeader['isResults']"
+                    class="nav-button button-l-medium">
+                Результаты
+            </button>
+        </div>
+
+        <!--  Заглушка  -->
+        <div class="role body-l-regular">
+            Студент
+        </div>
+    </div>
+</div>
