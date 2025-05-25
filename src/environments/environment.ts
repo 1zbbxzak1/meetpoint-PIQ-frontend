@@ -1,5 +1,5 @@
 export const environment = {
-    apiUrlPIQ: 'http://localhost:8080',
-    apiUrlAccount: 'http://localhost:5247',
+    apiUrlPIQ: 'http://81.31.244.118:8080',
+    apiUrlAccount: 'http://81.31.244.118:5247',
     TOKEN_NAME: 'accessToken',
 };
