@@ -1,0 +1,331 @@
+@use 'ui-kit/variables' as *;
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    max-width: 1200px;
+    margin: 0 auto 0;
+    padding: 104px 0 40px;
+
+    background: $bg-white;
+}
+
+.header-results {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+.header-1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    background: none;
+    border: none;
+
+    cursor: pointer;
+
+    gap: 8px;
+
+    margin-right: 100px;
+
+    color: $text-grey-secondary;
+    width: 78px;
+
+    .arrow-hover {
+        display: none;
+    }
+
+    &:hover {
+        .arrow-default {
+            display: none;
+        }
+
+        .arrow-hover {
+            display: inline;
+        }
+
+        color: $text-black;
+    }
+}
+
+.fullname-and-teamname {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    align-self: stretch;
+
+    margin-bottom: 16px;
+}
+
+.teamname {
+    color: $text-grey-secondary;
+    font-family: $font-bold;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+
+    align-items: center;
+
+    margin-top: 5px;
+}
+
+.header-2,
+.header-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+    margin: 0;
+
+    padding-bottom: 8px;
+}
+
+.header-3 {
+    margin-top: 40px;
+}
+
+.minor-button-result {
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    color: $text-black;
+    font-family: $font-medium;
+
+    display: flex;
+    padding: 6px 14px;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+
+    border-radius: 8px;
+    border: none;
+    background: $button-neutral-bg-hover;
+
+    cursor: pointer;
+}
+
+.minor-button-result:hover {
+    background: #EBEBEB;
+}
+
+.results-table {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-self: stretch;
+    width: 720px;
+
+    .row {
+        display: flex;
+        padding: 12px 20px;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+
+        border-bottom: 1px solid $stroke-light-gray;
+
+        &:first-child {
+            background-color: $bg-white;
+            color: $text-grey-secondary;
+            font-family: $font-bold;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 24px;
+
+            flex: 1 0 0;
+        }
+    }
+
+    .cell-4 {
+        width: 179px;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    .cell-5 {
+        width: 240px;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    .results-header {
+        display: flex;
+        padding: 12px 20px;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+
+        border-bottom: 1px solid #D6D6D6;
+    }
+}
+
+.score-cell {
+    display: flex;
+    width: 38px;
+    padding: 8px 11px;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    gap: 8px;
+
+    border-radius: 8px;
+    border: none;
+    margin: 0 auto;
+
+    &.no-data {
+        color: var(--Text-Grey-Secondary, #7B7B7B);
+    }
+
+    &.score-low {
+        background: #FE4C4C;
+    }
+
+    &.score-medium {
+        background: #FFA236;
+    }
+
+    &.score-high {
+        background: #F2BD33;
+    }
+
+    &.score-very-high {
+        background: #26AD50;
+    }
+
+    &.score-low,
+    &.score-medium,
+    &.score-high,
+    &.score-very-high {
+        color: var(--Text-White, #FFF);
+    }
+}
+
+.fullname {
+    display: inline-block;
+    border-bottom: 1px solid transparent;
+
+    cursor: pointer;
+}
+
+.fullname:hover {
+    border-bottom: 1px solid $text-black;
+}
+
+.dropdown-menu-select {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    align-self: flex-start;
+
+    margin-bottom: 48px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    cursor: pointer;
+
+    .custom-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+        z-index: 1;
+    }
+}
+
+.dropdown-container {
+    position: relative;
+    width: 100%;
+    z-index: 1000;
+}
+
+.dropdown-input-m {
+    width: 688px;
+    height: 24px;
+
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    width: 718px;
+    max-height: 240px;
+    left: 0;
+    overflow-y: auto;
+    z-index: 1000;
+
+    top: 44px;
+}
+
+.label {
+    margin-top: 2px;
+    text-align: center;
+}
+
+.input-active {
+    border: 1.2px solid $input-stroke-hover-focused;
+}
+
+.select-assessment-title {
+    margin-bottom: 12px;
+}
+
+.select-assessment {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+}
+
+.select-assessment:nth-child(3) {
+    padding-top: 8px;
+}
+
+.card-date {
+    color: $text-grey-secondary;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    align-items: center;
+
+    margin-top: 1px;
+}
+
+.avg-name {
+    border-bottom: 1px solid $stroke-light-gray;
+    margin-top: 2px;
+    margin-bottom: 2px;
+
+    width: 696px;
+
+    align-items: center;
+    align-self: center;
+}
+
+.button-assessment {
+    align-items: center;
+    gap: 16px;
+}

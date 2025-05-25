@@ -1,0 +1,114 @@
+<app-header *ngIf="isAdminTutor()"></app-header>
+<app-student-header *ngIf="isMember()"></app-student-header>
+
+<app-loading [isLoading]="isLoading"></app-loading>
+
+<div *ngIf="!isLoading" class="results-container">
+    <div class="header-results">
+        <button (click)="navigateBackToResults()" class="header-1">
+            <img class="arrow-default" height="24" ngSrc="assets/arrow-narrow-left.svg" width="24"/>
+            <img class="arrow-hover" height="24" ngSrc="assets/arrow-narrow-left-hover.svg" width="24"/>
+            <p class="button-m-medium">Назад</p>
+        </button>
+
+        <button (click)="openModal()" class="assessment-button minor-button-result">
+            Описание критериев и шкалы
+        </button>
+    </div>
+
+    <div class="fullname-and-teamname">
+        <p class="headline-5">{{ userScores?.fullName }}</p>
+        <p class="teamname">{{ userScores?.teamName }}</p>
+    </div>
+
+    <div class="dropdown-menu-select">
+        <div class="dropdown-container">
+            <div (click)="toggleDropdown()" class="input-wrapper">
+                <div
+                    [ngClass]="{ 'input-active': isDropdownOpen, 'dropdown-input-m': true, 'body-m-regular': true }"
+                    role="textbox"
+                    tabindex="0"
+                >
+                    <p *ngIf="selectedAssessmentId; else defaultText" class="body-m-regular">
+                        {{ getSelectedAssessmentNamePart1() }}
+                    </p>
+                    <p *ngIf="selectedAssessmentId" class="card-date body-s-regular">
+                        {{ getSelectedAssessmentNamePart2() }}
+                    </p>
+                    <ng-template #defaultText>
+                        Средние оценки
+                    </ng-template>
+                </div>
+                <img
+                    [src]="isDropdownOpen ? 'assets/chevron-up.svg' : 'assets/chevron-down.svg'"
+                    alt="dropdown icon"
+                    class="custom-icon"
+                />
+            </div>
+
+            <!-- Выпадающее меню -->
+            <div *ngIf="isDropdownOpen" class="dropdown-menu">
+                <button
+                    (click)="selectAverageScores()"
+                    [class.selected]="!selectedAssessmentId"
+                    class="body-m-regular"
+                >
+                    Средние оценки
+                </button>
+
+                <p class="avg-name"></p>
+
+                <button
+                    (click)="selectAssessment(assessment.id)"
+                    *ngFor="let assessment of assessments"
+                    [class.selected]="selectedAssessmentId === assessment.id"
+                    class="body-m-regular button-assessment"
+                >
+                    <p class="body-m-regular button-text">{{ assessment.name }}</p>
+                    <p class="card-date body-s-regular">
+                        {{ formatDate(assessment.startDate) }} - {{ formatDate(assessment.endDate) }}
+                    </p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ОЦЕНКА 360 -->
+    <p class="body-l-bold header-2">Оценка 360</p>
+    <div *ngIf="circleCriteria.length > 0" class="results-table">
+        <div class="results-header row">
+            <div *ngFor="let criteria of circleCriteria" class="cell-4">{{ criteria.name }}</div>
+        </div>
+        <div class="results-row row">
+            <div *ngFor="let criteria of circleCriteria" class="cell-4 body-m-regular">
+                <div [ngClass]="getScoreClass(getScore(userScores, criteria.id))" class="score-cell">
+                    {{ getScore(userScores, criteria.id) ?? '—' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ОЦЕНКА ПОВЕДЕНИЯ -->
+    <p class="body-l-bold header-3">Оценка поведения</p>
+    <div *ngIf="behaviorCriteria.length > 0" class="results-table">
+        <div class="results-header row">
+            <div *ngFor="let criteria of behaviorCriteria" class="cell-5">{{ criteria.name }}</div>
+        </div>
+        <div class="results-row row">
+            <div *ngFor="let criteria of behaviorCriteria" class="cell-5 body-m-regular">
+                <div [ngClass]="getScoreClass(getScore(userScores, criteria.id))" class="score-cell">
+                    {{ getScore(userScores, criteria.id) ?? '—' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<app-modal-results
+    (close)="closeModal()"
+    [activeTab]="''"
+    [behaviorCriteria]="behaviorCriteria"
+    [circleCriteria]="circleCriteria"
+    [isModalOpen]="isModalOpen">
+</app-modal-results>

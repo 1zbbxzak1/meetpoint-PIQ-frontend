@@ -9,6 +9,9 @@ import {
 import {AdminTutorGuard} from './data/guard/admin.tutor.guard';
 import {RedirectAuthGuard} from './data/guard/redirect-auth.guard';
 import {MemberGuard} from './data/guard/member.guard';
+import {StudentTeamComponent} from './children/dashboard/pages/teams/student/student-team/student-team.component';
+import {StudentResultsComponent} from './children/dashboard/pages/student-results/student-results.component';
+import {RolesGuard} from './data/guard/roles.guard';
 
 export const routes: Routes = [
     {
@@ -36,5 +39,19 @@ export const routes: Routes = [
         component: ResultsComponent,
         canActivate: [AdminTutorGuard],
     },
+    {
+        path: 'results/:userId',
+        component: StudentResultsComponent,
+        canActivate: [RolesGuard],
     },
+    {
+        path: 'student-team',
+        component: StudentTeamComponent,
+        canActivate: [MemberGuard],
+    },
+    {
+        path: 'student-team/assessment/:assessmentId',
+        component: FormAssessmentComponent,
+        canActivate: [MemberGuard],
+    }
 ];
