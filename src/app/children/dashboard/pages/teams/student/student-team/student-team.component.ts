@@ -19,7 +19,7 @@ import {StudentHeaderComponent} from '../../../../components/student-header/stud
 
     ],
     templateUrl: './student-team.component.html',
-    styleUrl: '../../children/team/styles/team.component.scss'
+    styleUrl: './styles/student-team.component.scss'
 })
 export class StudentTeamComponent implements OnInit {
     public isLoading: boolean = true;
