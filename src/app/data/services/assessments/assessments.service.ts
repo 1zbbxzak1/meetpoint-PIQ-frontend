@@ -15,6 +15,10 @@ export class AssessmentsService {
     private readonly _http: HttpClient = inject(HttpClient);
     private readonly _apiUrl: string = `${environment.apiUrlPIQ}/assessments`;
 
+    public getAssessmentById(id: string): Observable<AssessmentDto> {
+        return this._http.get<AssessmentDto>(`${this._apiUrl}/${id}`);
+    }
+
     public editAssessmentById(id: string, assessment: IEditAssessmentRequest): Observable<AssessmentDto> {
         return this._http.put<AssessmentDto>(`${this._apiUrl}/${id}`, assessment);
     }

@@ -14,6 +14,16 @@ export class AssessmentsManagerService {
     private readonly _assessmentsService: AssessmentsService = inject(AssessmentsService);
     private readonly _errorHandler: ErrorHandler = inject(ErrorHandler);
 
+    public getAssessmentById(id: string): Observable<AssessmentDto> {
+        return this._assessmentsService.getAssessmentById(id).pipe(
+            catchError(err => {
+                this._errorHandler.handleError(err);
+                return NEVER;
+            }),
+        );
+
+    }
+
     public editAssessmentById(id: string, assessment: IEditAssessmentRequest): Observable<AssessmentDto> {
         return this._assessmentsService.editAssessmentById(id, assessment).pipe(
             catchError(err => {

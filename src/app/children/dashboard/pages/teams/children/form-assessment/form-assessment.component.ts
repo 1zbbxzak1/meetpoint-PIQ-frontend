@@ -37,6 +37,7 @@ export class FormAssessmentComponent implements OnInit {
 
     protected teamId: string = '';
     protected assessmentId: string = '';
+    protected assessmentName: string | null = '';
     protected usedForms: FormShortDto[] = [];
     protected usedFormOne: FormShortDto[] = [];
     protected usedFormTwo: FormShortDto[] = [];
@@ -204,11 +205,14 @@ export class FormAssessmentComponent implements OnInit {
 
     private loadData(): void {
         forkJoin({
+            assessment: this._assessmentsManagerService.getAssessmentById(this.assessmentId),
             users: this._assessmentsManagerService.getAssessUsers(this.assessmentId),
             forms: this._assessmentsManagerService.getUsedForms(this.assessmentId)
         }).pipe(
             takeUntilDestroyed(this._destroyRef)
-        ).subscribe(({users, forms}) => {
+        ).subscribe(({assessment, users, forms}): void => {
+            this.assessmentName = assessment.name;
+
             this.assessUsers = users;
             users.forEach(user => {
                 if (user.assessed) {
@@ -238,5 +242,9 @@ export class FormAssessmentComponent implements OnInit {
         } catch {
             return null;
         }
+    }
+
+    private getAssessmentById(): void {
+
     }
 }
