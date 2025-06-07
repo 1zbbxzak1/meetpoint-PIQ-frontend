@@ -11,6 +11,8 @@
     background: $bg-white;
 
     position: fixed;
+
+    z-index: 99999;
 }
 
 .header-container {

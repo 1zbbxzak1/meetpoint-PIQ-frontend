@@ -145,6 +145,12 @@
 .card-assessment-active {
     display: flex;
     gap: 8px;
+    position: relative;
+}
+
+.card-assessment-future {
+    display: flex;
+    position: relative;
 }
 
 .not-assessed-title {
@@ -163,18 +169,21 @@
     align-items: center;
     gap: 8px;
     line-height: 20px;
-
-    position: relative;
 }
 
 .dropdown-menu {
     position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
 
     width: 170px;
     max-height: 90px;
     z-index: 1000;
 
-    margin-top: 4px;
-    margin-right: 146px;
     padding: 4px;
+}
+
+.dropdown-menu:not(:empty) ~ .neutral-button-s-no-outline-default,
+.neutral-button-s-no-outline-default:has(+ .dropdown-menu:not(:empty)) {
+    background: $button-neutral-bg-hover;
 }
