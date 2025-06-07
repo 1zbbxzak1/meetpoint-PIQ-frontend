@@ -55,6 +55,9 @@
                         <button (click)="selectChoice(question.id, choice.id)"
                                 *ngFor="let choice of question.choices"
                                 [ngClass]="{ 'selected': isSelected(question.id, choice.id) }"
+                                [tooltipText]="choice.description"
+                                [tooltipWidth]="getTooltipWidth(form.questions!.indexOf(question), question.choices!.indexOf(choice))"
+                                appTooltip
                                 class="neutral-button-minor-form button-form-one">
                             {{ choice.text }}
                         </button>

@@ -10,6 +10,7 @@ import {AssessChoiceDto} from '../../../../../../data/dto/AssessChoiceDto';
 import {forkJoin} from 'rxjs';
 import {AuthManagerService} from '../../../../../../data/services/auth/auth.manager.service';
 import {jwtDecode} from 'jwt-decode';
+import {TooltipDirective} from './directives/tooltip.directive';
 
 
 interface AssessUserStep {
@@ -20,6 +21,7 @@ interface AssessUserStep {
 
 @Component({
     selector: 'app-form-assessment',
+    standalone: true,
     imports: [
         NgOptimizedImage,
         NgForOf,
@@ -27,10 +29,14 @@ interface AssessUserStep {
         NgSwitchCase,
         NgClass,
         NgSwitch,
-        NgSwitchDefault
+        NgSwitchDefault,
+        TooltipDirective
     ],
     templateUrl: './form-assessment.component.html',
-    styleUrl: './styles/form-assessment.component.scss'
+    styleUrls: [
+        './styles/form-assessment.component.scss',
+        './directives/tooltip.scss'
+    ]
 })
 export class FormAssessmentComponent implements OnInit {
     protected isLoading: boolean = true;
@@ -47,6 +53,17 @@ export class FormAssessmentComponent implements OnInit {
     protected steps: AssessUserStep[] = [];
 
     protected selectedChoices: { [userId: string]: { [questionId: string]: string } } = {};
+
+    private readonly tooltipWidths: number[][] = [
+        [180, 190, 210, 210, 200], // первый вопрос
+        [156, 172, 168, 200, 190], // второй вопрос
+        [174, 156, 200, 204, 214], // третий вопрос
+        [148, 148, 164, 180, 180], // четвертый вопрос
+        [216, 160, 170, 192, 192], // пятый вопрос
+        [180, 192, 164, 194, 292], // шестой вопрос
+        [160, 170, 140, 124, 162], // седьмой вопрос
+        [180, 190, 148, 170, 170]  // восьмой вопрос
+    ];
 
     private readonly _route: ActivatedRoute = inject(ActivatedRoute);
     private readonly _router: Router = inject(Router);
@@ -144,6 +161,10 @@ export class FormAssessmentComponent implements OnInit {
         } else {
             this._router.navigate(['/']);
         }
+    }
+
+    protected getTooltipWidth(questionIndex: number, choiceIndex: number): string {
+        return `${this.tooltipWidths[questionIndex][choiceIndex]}px`;
     }
 
     private initializeSteps() {
